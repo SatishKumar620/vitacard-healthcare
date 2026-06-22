@@ -49,6 +49,26 @@ From an architectural and product perspective, the development of VitaCard is gu
 * **stateless Deployment:** Standardize the platform into a single Docker image containing the web gateway, database, and workflow engines to enable rapid scaling.
 * **Transactional Reliability:** Ensure atomic operations for bookings, automatically updating patient records and triggering email dispatchers via Resend APIs.
 
+### 2.1 5-Week Implementation Roadmap (GSoC-Style)
+
+The development of the VitaCard platform is structured into a fast-paced 5-week lifecycle with distinct deliverables for each phase:
+
+* **Week 1: Core Triage and Data Engine Foundation**
+  - **Focus:** Infrastructure and Database Setup.
+  - **Deliverables:** PostgreSQL 15 database schema initialization, HNSW index configurations for `pgvector` operations, and custom JS script seeding. Setup n8n server configurations, webhook listeners, and SQLite persistence. Build chat session tracking tables (`chat_sessions`, `session_messages`).
+* **Week 2: AI Dialog Engine & RAG Matching Pipeline**
+  - **Focus:** Search Vectorization & Conversational Workflows.
+  - **Deliverables:** Link Cohere 1024-dimensional English embeddings nodes inside the matching graph. Implement parameterized cosine distance query logic. Integrate Groq's Llama-3.3-70b Chat Completion nodes to run multi-turn clarifying anamnesis harvesting and final match reranking.
+* **Week 3: Frontend UI & Scheduling Calendars**
+  - **Focus:** Dashboards and Booking Operations.
+  - **Deliverables:** Implement the responsive, glassmorphic React 19 UI. Build separate patient EHR cards and doctor appointment list dashboards. Build interactive booking, rescheduling, and cancellation handler utilities syncing with client-side triggers. Add custom Three.js WebGL backgrounds.
+* **Week 4: Client-Side OCR & Server-Side Security**
+  - **Focus:** Document Parsing & JWT Authorization.
+  - **Deliverables:** Integrate `Tesseract.js` client-side parsing inside background worker threads. Write zero-dependency backend JWT utilities using Node's native `crypto` package. Implement `/api/auth/signup`, `/api/auth/login`, `/api/auth/me`, and `/api/auth/update-profile` endpoints with token bearer header verifications.
+* **Week 5: Notifications, Containerization & Space Deploy**
+  - **Focus:** Transactional Communications & Container Orchestration.
+  - **Deliverables:** Expose Resend HTML transactional email notification APIs on Express (falling back to local transcripts logging). Build the final Dockerfile setting up Node and Postgres runtime environments. Write `start.sh` startup automation scripts. Deploy and verify on Hugging Face Spaces.
+
 ---
 
 ## 3. System Architecture
@@ -71,6 +91,95 @@ An **Express.js** web server serves as the entry point for container traffic, li
 ### 3.3 Data & Intelligence Layer (n8n & PostgreSQL)
 * **n8n Automation Engine:** An internal, headless instance of n8n orchestrates patient sessions, triggers database inserts/updates, calls external LLM models (Cohere, Groq), and formats responses.
 * **PostgreSQL Database:** A PostgreSQL 15 instance equipped with the **pgvector** extension. It hosts clinician records, embeds high-dimensional vector representations of doctor bios, and handles cosine similarity searches.
+
+### 3.4 Codebase Structure & File Purpose
+
+Below is the directory mapping of the VitaCard project, summarizing the functional role of each critical source file:
+
+```
+medical-bot/
+├── deploy/
+│   ├── Dockerfile                   # Configures the Node.js/PostgreSQL container runtime
+│   ├── start.sh                     # Orchestrates database creation, seeding, n8n webhook registration, and boots Express
+│   ├── deploy-package.json          # Container-only production dependency manifest
+│   ├── deploy-readme.md             # Readme instructions tailored for Hugging Face Space deployments
+│   ├── init_schema.sql              # SQL script detailing the doctors, chat_sessions, and session_messages tables
+│   ├── seed_doctors.js              # Node database seeder populating doctor records with vectors
+│   └── doctor_rag_workflow.json     # Declarative n8n workflow configuration representing matching routes
+├── scripts/                         # Contains localized system utility, verification, and testing shell scripts
+│   ├── check_err.py                 # Error diagnostics helper
+│   ├── seed_postgres.py             # Backup database populator
+│   └── test-*.sh                    # Integrations scripts for webhooks, active sessions, and n8n responses
+├── src/                             # Front-end codebase root
+│   ├── db/
+│   │   └── doctors.json             # Local database of doctors used in client search fallbacks
+│   ├── utils/
+│   │   └── state.js                 # LocalStorage synchronizer, state emitters, and JWT API controllers
+│   ├── components/
+│   │   ├── Navbar.jsx               # Header navigation panel managing notifications and sessions
+│   │   ├── Hero.jsx                 # Site landing banner promoting memberships and registrations
+│   │   ├── Services.jsx             # Informational cards outlining clinic fields
+│   │   ├── DoctorsList.jsx          # Directory query list with booking modal triggers
+│   │   ├── DoctorDetails.jsx        # Practitioner profiles presenting bio descriptions and available slots
+│   │   ├── Chat.jsx                 # AI triage chatbot overlay handling dialog bubbles and quick replies
+│   │   ├── Login.jsx                # Multi-role authentication entry page
+│   │   ├── Signup.jsx               # Demographic fields input forms for patients and clinicians
+│   │   └── Dashboard.jsx            # Multi-panel dashboards rendering patients EHR/reports and doctor calendars
+│   ├── App.jsx                      # Main routing controller resolving hash addresses (#/login, #/dashboard)
+│   ├── main.jsx                     # Core application mounting node
+│   ├── index.css                    # Design system tokens and styling rules
+│   └── dashboard.css                # Layout rules styling patient/practitioner dashboard screens
+├── server.js                        # Express.js web server handling routing, proxying, and custom JWT auth
+├── package.json                     # Main node workspace specifications and dependencies
+├── vite.config.js                   # Packaging bundler parameters with API proxy setups
+└── documentation.md                 # Deep technical blueprint and documentation
+```
+
+### 3.5 Dependencies and Library Matrix
+
+The platform integrates third-party modules across frontend, backend, and workflow automation layers:
+
+#### 3.5.1 Frontend (React Application)
+* **`react` / `react-dom` (v19):** UI rendering framework.
+* **`three` (v0.184.0) / `@react-three/fiber` (v9.6.1) / `@react-three/drei` (v10.7.7):** Renders the premium 3D glassmorphic WebGL particle effect in the background of the landing pages.
+* **`tesseract.js` (v7.0.0):** Browser-side Optical Character Recognition (OCR) engine used to parse patient diagnostic reports inside background web workers without transmitting raw files to the backend.
+* **`vite` (v8.0.12):** Packaging tool providing local proxy tunnels to the backend Express server during development.
+
+#### 3.5.2 Backend Server & Container Gateway
+* **`express` (v4.18.2):** Web application framework handling REST APIs, routing, and static file deliveries.
+* **`http-proxy-middleware` (v2.0.6):** Transparently forwards internal client API webhook requests to the background n8n automation service running inside the Docker network interface.
+* **`crypto` (Node.js Native):** Generates security signatures (`HS256`) and processes custom URL-safe base64 encodes/decodes to run a zero-dependency JWT system.
+* **`fs` / `path` (Node.js Native):** Manages local persistence for registered accounts inside `users.json` during the container runtime.
+
+#### 3.5.3 Automation & Database Layer
+* **`n8n` (v1.0+):** Graphical workflow engine executing the triage graph, dialog memories, and LLM integrations.
+* **`pg` / `pgvector` (PostgreSQL 15 extension):** Relational database storing vectors representing clinician credentials and bios, executing HNSW L2 distance queries.
+
+### 3.6 Express API Endpoints Registry
+
+The Express gateway exposes the following REST endpoints to drive user authentication, notification events, and communication scripts:
+
+1. **`POST /api/auth/signup`**
+   - **Purpose:** Registers new patient or doctor accounts.
+   - **Behavior:** Validates inputs, checks for existing emails in `users.json`, initializes a unique ID (and `doctorId` parameter for doctors), signs a stateless JWT, writes records to disk, and returns the token with the password-scrubbed user object.
+2. **`POST /api/auth/login`**
+   - **Purpose:** Authenticates user credentials.
+   - **Behavior:** Searches `users.json` for active role, email, and password matches. Upon verification, issues an HS256 JWT containing user session keys.
+3. **`GET /api/auth/me`**
+   - **Purpose:** Resolves active session parameters.
+   - **Behavior:** Parses the token from the request `Authorization: Bearer <token>` header, decodes user parameters, and returns verified user fields.
+4. **`POST /api/auth/update-profile`**
+   - **Purpose:** Commits changes to patient clinical logs or practitioner information.
+   - **Behavior:** Enforces JWT header validation, resolves the active user ID, merges submitted modifications with the account record in `users.json`, writes to disk, and returns updated profiles.
+5. **`POST /api/send-appointment-email`**
+   - **Purpose:** Triggers appointment booking confirmation emails.
+   - **Behavior:** Reads clinical calendar details, queries Resend API, and dispatches HTML formatting to patients and doctors. Logs confirmations to `/sent_emails.txt` as a debug fallback if API keys are not supplied.
+6. **`POST /api/audio-to-text`**
+   - **Purpose:** Gateway route forwarding client voice bytes to Sarvam AI audio transcoders for transcription.
+7. **`POST /webhook/doctor-chat`**
+   - **Purpose:** Relays active patient text queries to internal n8n triage workflows on port 5678.
+8. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`**
+   - **Purpose:** Proxies administration interfaces and active webhook endpoints directly to n8n, preventing port exposure.
 
 ---
 

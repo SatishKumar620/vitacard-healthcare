@@ -47,6 +47,26 @@ The primary engineering and operational objectives of the platform are:
 * **Decoupled Document Processing:** Use `Tesseract.js` client-side to parse diagnostics lab reports (OCR) instantly in the browser.
 * **Automated Confirmations:** Trigger transactional notification emails (via Resend API) to both doctor and patient upon scheduling.
 
+### 2.1 5-Week Implementation Roadmap (GSoC-Style)
+
+The development of the VitaCard platform is structured into a fast-paced 5-week lifecycle with distinct deliverables for each phase:
+
+* **Week 1: Core Triage and Data Engine Foundation**
+  - **Focus:** Infrastructure and Database Setup.
+  - **Deliverables:** PostgreSQL 15 database schema initialization, HNSW index configurations for `pgvector` operations, and custom JS script seeding. Setup n8n server configurations, webhook listeners, and SQLite persistence. Build chat session tracking tables (`chat_sessions`, `session_messages`).
+* **Week 2: AI Dialog Engine & RAG Matching Pipeline**
+  - **Focus:** Search Vectorization & Conversational Workflows.
+  - **Deliverables:** Link Cohere 1024-dimensional English embeddings nodes inside the matching graph. Implement parameterized cosine distance query logic. Integrate Groq's Llama-3.3-70b Chat Completion nodes to run multi-turn clarifying anamnesis harvesting and final match reranking.
+* **Week 3: Frontend UI & Scheduling Calendars**
+  - **Focus:** Dashboards and Booking Operations.
+  - **Deliverables:** Implement the responsive, glassmorphic React 19 UI. Build separate patient EHR cards and doctor appointment list dashboards. Build interactive booking, rescheduling, and cancellation handler utilities syncing with client-side triggers. Add custom Three.js WebGL backgrounds.
+* **Week 4: Client-Side OCR & Server-Side Security**
+  - **Focus:** Document Parsing & JWT Authorization.
+  - **Deliverables:** Integrate `Tesseract.js` client-side parsing inside background worker threads. Write zero-dependency backend JWT utilities using Node's native `crypto` package. Implement `/api/auth/signup`, `/api/auth/login`, `/api/auth/me`, and `/api/auth/update-profile` endpoints with token bearer header verifications.
+* **Week 5: Notifications, Containerization & Space Deploy**
+  - **Focus:** Transactional Communications & Container Orchestration.
+  - **Deliverables:** Expose Resend HTML transactional email notification APIs on Express (falling back to local transcripts logging). Build the final Dockerfile setting up Node and Postgres runtime environments. Write `start.sh` startup automation scripts. Deploy and verify on Hugging Face Spaces.
+
 ---
 
 ## 3. System Architecture
@@ -55,6 +75,82 @@ The VitaCard codebase is divided into three logical layers:
 1. **User Interface (React 19 & Vite 8):** Renders glassmorphic dashboards, 3D Three.js background canvasses, scheduling calendar modules, and the main audio/text chatbot.
 2. **Gateway & Proxy (Express.js):** Acts as the public portal. Serves static frontend files and exposes APIs to transcode audio, translate speech inputs, and route n8n webhooks.
 3. **Data & AI Layer (PostgreSQL with pgvector, n8n, LLMs):** n8n orchestrates workflows, postgres manages doctor data, Groq (Llama-3.3-70b) runs LLM tasks, and Cohere generates embeddings.
+
+### 3.1 Codebase Structure & File Purpose
+
+Below is the directory mapping of the VitaCard project, summarizing the functional role of each critical source file:
+
+```
+medical-bot/
+├── deploy/
+│   ├── Dockerfile                   # Configures the Node.js/PostgreSQL container runtime
+│   ├── start.sh                     # Orchestrates database creation, seeding, n8n webhook registration, and boots Express
+│   ├── deploy-package.json          # Container-only production dependency manifest
+│   ├── deploy-readme.md             # Readme instructions tailored for Hugging Face Space deployments
+│   ├── init_schema.sql              # SQL script detailing the doctors, chat_sessions, and session_messages tables
+│   ├── seed_doctors.js              # Node database seeder populating doctor records with vectors
+│   └── doctor_rag_workflow.json     # Declarative n8n workflow configuration representing matching routes
+├── scripts/                         # Contains localized system utility, verification, and testing shell scripts
+│   ├── check_err.py                 # Error diagnostics helper
+│   ├── seed_postgres.py             # Backup database populator
+│   └── test-*.sh                    # Integrations scripts for webhooks, active sessions, and n8n responses
+├── src/                             # Front-end codebase root
+│   ├── db/
+│   │   └── doctors.json             # Local database of doctors used in client search fallbacks
+│   ├── utils/
+│   │   └── state.js                 # LocalStorage synchronizer, state emitters, and JWT API controllers
+│   ├── components/
+│   │   ├── Navbar.jsx               # Header navigation panel managing notifications and sessions
+│   │   ├── Hero.jsx                 # Site landing banner promoting memberships and registrations
+│   │   ├── Services.jsx             # Informational cards outlining clinic fields
+│   │   ├── DoctorsList.jsx          # Directory query list with booking modal triggers
+│   │   ├── DoctorDetails.jsx        # Practitioner profiles presenting bio descriptions and available slots
+│   │   ├── Chat.jsx                 # AI triage chatbot overlay handling dialog bubbles and quick replies
+│   │   ├── Login.jsx                # Multi-role authentication entry page
+│   │   ├── Signup.jsx               # Demographic fields input forms for patients and clinicians
+│   │   └── Dashboard.jsx            # Multi-panel dashboards rendering patients EHR/reports and doctor calendars
+│   ├── App.jsx                      # Main routing controller resolving hash addresses (#/login, #/dashboard)
+│   ├── main.jsx                     # Core application mounting node
+│   ├── index.css                    # Design system tokens and styling rules
+│   └── dashboard.css                # Layout rules styling patient/practitioner dashboard screens
+├── server.js                        # Express.js web server handling routing, proxying, and custom JWT auth
+├── package.json                     # Main node workspace specifications and dependencies
+├── vite.config.js                   # Packaging bundler parameters with API proxy setups
+└── documentation.md                 # Deep technical blueprint and documentation
+```
+
+### 3.2 Dependencies and Library Matrix
+
+The platform integrates third-party modules across frontend, backend, and workflow automation layers:
+
+#### 3.2.1 Frontend (React Application)
+* **`react` / `react-dom` (v19):** UI rendering framework.
+* **`three` (v0.184.0) / `@react-three/fiber` (v9.6.1) / `@react-three/drei` (v10.7.7):** Renders the premium 3D glassmorphic WebGL particle effect in the background of the landing pages.
+* **`tesseract.js` (v7.0.0):** Browser-side OCR parser inside background workers.
+* **`vite` (v8.0.12):** Packaging tool with API proxy configurations.
+
+#### 3.2.2 Backend Server & Container Gateway
+* **`express` (v4.18.2):** Web application framework.
+* **`http-proxy-middleware` (v2.0.6):** Forwarding server proxy middleware.
+* **`crypto` (Node.js Native):** Custom stateless JWT authentication utilities.
+* **`fs` / `path` (Node.js Native):** Manages local persistence for registered accounts inside `users.json`.
+
+#### 3.2.3 Automation & Database Layer
+* **`n8n` (v1.0+):** Graphical workflow engine executing the triage graph, dialog memories, and LLM integrations.
+* **`pg` / `pgvector` (PostgreSQL 15 extension):** Vector distance calculations.
+
+### 3.3 Express API Endpoints Registry
+
+The Express gateway exposes the following REST endpoints to drive user authentication, notification events, and communication scripts:
+
+1. **`POST /api/auth/signup`** - Registers new patient or doctor accounts, writes credentials to `users.json`, and returns an HS256 JWT.
+2. **`POST /api/auth/login`** - Authenticates users role, email, and password, and returns a signed session token.
+3. **`GET /api/auth/me`** - Validates the request Bearer header token and resolves active user credentials.
+4. **`POST /api/auth/update-profile`** - Validates user session, merges submitted profile edits with local database records, and updates the state.
+5. **`POST /api/send-appointment-email`** - Fires Resend HTML template dispatchers to both patient and doctor schedules.
+6. **`POST /api/audio-to-text`** - Gateway transcoder route forwarding audio queries to Sarvam AI.
+7. **`POST /webhook/doctor-chat`** - Relays text messages to the internal n8n service on port 5678.
+8. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`** - Proxies administration interfaces and active webhook endpoints directly to n8n.
 
 ---
 
