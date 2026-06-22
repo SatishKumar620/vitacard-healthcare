@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && cp Dockerfile server.js start.sh deploy-package.json doctor_rag_workflow.json init_schema.sql seed_doctors.js system_architecture.png dist/ && cp src/db/doctors_with_embeddings.json dist/doctors.json && cp deploy-readme.md dist/README.md && cp deploy-gitattributes dist/.gitattributes",
+    "build": "vite build && cp deploy/Dockerfile server.js deploy/start.sh deploy/deploy-package.json deploy/doctor_rag_workflow.json deploy/init_schema.sql deploy/seed_doctors.js system_architecture.png dist/ && cp src/db/doctors_with_embeddings.json dist/doctors.json && cp deploy/deploy-readme.md dist/README.md && cp deploy/deploy-gitattributes dist/.gitattributes",
     "lint": "eslint .",
     "preview": "vite preview"
   },
