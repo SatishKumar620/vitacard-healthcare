@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitaCard – Private Healthcare Membership</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- PRELOADER -->
+    <style>
+      #global-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #120B08;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
+      }
+      .loader-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .loader-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 28px;
+      }
+      .concentric-ring-1 {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+        border-top-color: #FF6B00;
+        border-bottom-color: #FF6B00;
+        border-radius: 50%;
+        animation: spin-clockwise 2s linear infinite;
+        filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.4));
+      }
+      .concentric-ring-2 {
+        position: absolute;
+        width: 76%;
+        height: 76%;
+        border: 2px solid transparent;
+        border-left-color: #FFAE73;
+        border-right-color: #FFAE73;
+        border-radius: 50%;
+        animation: spin-counter-clockwise 1.5s linear infinite;
+        opacity: 0.7;
+      }
+      .loader-center-icon {
+        position: absolute;
+        animation: breathe 2.5s ease-in-out infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .loader-brand {
+        font-family: 'Manrope', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 800;
+        letter-spacing: 4px;
+        color: #FAFCFB;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        position: relative;
+        background: linear-gradient(90deg, #FAFCFB 0%, #FFAE73 50%, #FAFCFB 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: text-shimmer 2.5s linear infinite;
+      }
+      .loader-progress-container {
+        width: 140px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .loader-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #FF6B00;
+        border-radius: 2px;
+        animation: loading 1.5s ease-out forwards;
+      }
+      @keyframes loading {
+        0% { width: 0%; }
+        50% { width: 70%; }
+        100% { width: 100%; }
+      }
+      @keyframes spin-clockwise {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes spin-counter-clockwise {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(-360deg); }
+      }
+      @keyframes breathe {
+        0%, 100% { transform: scale(0.96); opacity: 0.95; }
+        50% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 12px rgba(255, 107, 0, 0.5)); }
+      }
+      @keyframes text-shimmer {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+      #global-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+    <div id="global-loader">
+      <div class="loader-container">
+        <div class="loader-wrapper">
+          <div class="concentric-ring-1"></div>
+          <div class="concentric-ring-2"></div>
+          <div class="loader-center-icon">
+            <svg viewBox="0 0 64 64" width="40" height="40">
+              <defs>
+                <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFAE73" />
+                  <stop offset="100%" stop-color="#FF6B00" />
+                </linearGradient>
+              </defs>
+              <!-- Stylized 'V' logo with a modern healthcare touch -->
+              <path d="M18 18 L30 46 L34 46 L46 18" fill="none" stroke="url(#iconGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M32 20 V28 M28 24 H36" fill="none" stroke="#FF6B00" stroke-width="4" stroke-linecap="round" opacity="0.9" />
+            </svg>
+          </div>
+        </div>
+        <div class="loader-brand">VitaCard</div>
+        <div class="loader-progress-container">
+          <div class="loader-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

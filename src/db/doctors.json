@@ -1,0 +1,3132 @@
+[
+  {
+    "s_no": 1,
+    "name": "Dr. Nitesh Kumar Singh",
+    "specialization": "General Physician",
+    "clinic": "ASG Eye Hospital",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 2,
+    "name": "Dr. Madan Shivam Rajkumar",
+    "specialization": "Ophthalmologist",
+    "clinic": "ASG Eye Hospital",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 3,
+    "name": "Dr. Ruby Pandey",
+    "specialization": "Ophthalmologist",
+    "clinic": "ASG Eye Hospital",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 4,
+    "name": "Dr. Anjalika Shekhar",
+    "specialization": "Ophthalmologist",
+    "clinic": "ASG Eye Hospital",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 5,
+    "name": "Dr. Sunil Kumar Kedia",
+    "specialization": "Emergency & Critical Care",
+    "clinic": "SSB Health Care",
+    "address": "Sidhgora",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 6,
+    "name": "Dr. Zafar Alam",
+    "specialization": "Dentist",
+    "clinic": "Jamshedpur Dental Hospital",
+    "address": "SNP Area",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 7,
+    "name": "Dr. Anand Pandey",
+    "specialization": "Dentist",
+    "clinic": "Advance Dental Care Clinic",
+    "address": "Kadma",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 8,
+    "name": "Dr. Priyanka Pandey",
+    "specialization": "Dentist",
+    "clinic": "Advance Dental Care Clinic",
+    "address": "Kadma",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 9,
+    "name": "Dr. Eric Liu",
+    "specialization": "Dentist",
+    "clinic": "Liu's Dental Clinic",
+    "address": "Jugsalai",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 10,
+    "name": "Dr. Parveen Pal",
+    "specialization": "Dentist",
+    "clinic": "Dental Spa",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 11,
+    "name": "Dr. Kundan Kumar",
+    "specialization": "Gastroenterologist",
+    "clinic": "Gastro Clinic",
+    "address": "Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 12,
+    "name": "Dr. Harprit Singh",
+    "specialization": "Urologist",
+    "clinic": "Urovita Hospital",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 13,
+    "name": "Dr. Ajay Mishra",
+    "specialization": "General Physician",
+    "clinic": "Dr. Ajay Mishra's Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 14,
+    "name": "Dr. Rupak Sinha",
+    "specialization": "Dentist",
+    "clinic": "Cuspids Jamshedpur",
+    "address": "Shop A/2, Outer Circle Road, Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "docindia.org"
+  },
+  {
+    "s_no": 15,
+    "name": "Dr. Md Asif Khan",
+    "specialization": "Prosthodontist",
+    "clinic": "Rumana Dental Clinic",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "docindia.org"
+  },
+  {
+    "s_no": 16,
+    "name": "Dr. Kamini Lata",
+    "specialization": "Pediatric Dentist",
+    "clinic": "Clinic",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "docindia.org"
+  },
+  {
+    "s_no": 17,
+    "name": "Dr. B. P. Singh",
+    "specialization": "Ophthalmologist",
+    "clinic": "Dr. B. P. Singh Clinic",
+    "address": "Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 18,
+    "name": "Dr. Rajan Verma",
+    "specialization": "Ophthalmologist",
+    "clinic": "Dr. Rajan Verma Clinic",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 19,
+    "name": "Dr. Purnima",
+    "specialization": "Ophthalmologist",
+    "clinic": "Clinic",
+    "address": "Tamolia Chowk",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 20,
+    "name": "Dr. K. C. Das",
+    "specialization": "Ophthalmologist",
+    "clinic": "Dr. K. C. Das Clinic",
+    "address": "Tamolia Chowk",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 21,
+    "name": "Dr. Manoj Kumar",
+    "specialization": "Dermatologist",
+    "clinic": "Dr. Manoj Kumar Clinic",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 22,
+    "name": "Dr. (Clinic)",
+    "specialization": "Dermatology",
+    "clinic": "Paul's Multispeciality Clinic",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 23,
+    "name": "Dr. (Clinic)",
+    "specialization": "Dermatology",
+    "clinic": "BR Pharma & Polyclinic",
+    "address": "Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 24,
+    "name": "General Physician",
+    "specialization": "General Physician",
+    "clinic": "Private Clinic",
+    "address": "Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 25,
+    "name": "Dr. Aftab",
+    "specialization": "General Physician",
+    "clinic": "Dr. Aftab Clinic",
+    "address": "Dimna Road",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 26,
+    "name": "General Physician",
+    "specialization": "General Physician",
+    "clinic": "SABERA Clinic & Diagnostics",
+    "address": "Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 27,
+    "name": "General Physician",
+    "specialization": "General Physician",
+    "clinic": "Fatmi Clinic",
+    "address": "Jugsalai",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 28,
+    "name": "General Physician",
+    "specialization": "General Physician",
+    "clinic": "Brahmananda Narayana Multispeciality Hospital",
+    "address": "NH-33, Near Pardih Chowk, Tamolia",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 29,
+    "name": "General Physician",
+    "specialization": "General Physician",
+    "clinic": "Indralok Medical",
+    "address": "Chairman, Adityapur Industrial Area",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 30,
+    "name": "General Physician",
+    "specialization": "General Physician",
+    "clinic": "Medisist ENT Hospital",
+    "address": "SNP Area",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 31,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Prince Medical",
+    "address": "Main Road, Nataraj Building, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "09430185544",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 32,
+    "name": "Dr. (Clinic)",
+    "specialization": "Diagnostic Centre",
+    "clinic": "Thyrocare",
+    "address": "UB-222 Akashdeep Plaza, Golmuri 831001",
+    "city": "Jamshedpur",
+    "phone": "09234888080",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 33,
+    "name": "Dr. (Clinic)",
+    "specialization": "Multi-specialty",
+    "clinic": "South Park",
+    "address": "Outer Circle Road, Near Adityapur Bridge, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "06576622000",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 34,
+    "name": "Dr. (Clinic)",
+    "specialization": "Multi-specialty",
+    "clinic": "KGMS Hospital",
+    "address": "South Park, Outer Circle Road, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "09708588233",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 35,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Practice",
+    "clinic": "Clinic",
+    "address": "2nd Floor, Devdas Palace, Diagonal Road, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "07004400276",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 36,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "5, Ram Das Bhatta, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "06572430538",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 37,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Tata-Hata Main Road, South Park, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "08603231504",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 38,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Shop No.5, M.P. Tower, Main Road, Adityapur-1 831013",
+    "city": "Jamshedpur",
+    "phone": "09204066392",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 39,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Practice",
+    "clinic": "TMH OPD",
+    "address": "C-Road, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "08960487871",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 40,
+    "name": "Dr. (Clinic)",
+    "specialization": "Paediatrics",
+    "clinic": "Doctor Clinic",
+    "address": "Adityapur, Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "06572306508",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 41,
+    "name": "Dr. (Clinic)",
+    "specialization": "Paediatrics",
+    "clinic": "Doctor Clinic",
+    "address": "Kadma, Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "06572283250",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 42,
+    "name": "Dr. (Clinic)",
+    "specialization": "Obstetrics and Gynecology",
+    "clinic": "Clinic",
+    "address": "Baridih, Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "asklaila.com"
+  },
+  {
+    "s_no": 43,
+    "name": "CA (Capt.) N.N. Jha",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831005",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 44,
+    "name": "Maj. Pradip Kumar",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 45,
+    "name": "Prof. P.K. Sinha",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 46,
+    "name": "Dr. A. K. Debdas",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 47,
+    "name": "Dr. A.B. Bhatta Mishra",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831005",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 48,
+    "name": "Dr. A.V.K. Bakhla",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 49,
+    "name": "Dr. Afis Akhtar Khan",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831005",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 50,
+    "name": "Dr. Agarwal M.M.",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 51,
+    "name": "Dr. Agarwal R.K.",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "medindia.net"
+  },
+  {
+    "s_no": 52,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Adarshnagar Colony Clinic",
+    "address": "House No.125, Road No.1, Cross Road No.3, Adarshnagar Colony",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 53,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "108/109, B-Block, Line No.1, Dhatkidih",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 54,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Anjan Complex, Ground Floor, Road No.18, Azadnagar",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 55,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "R Type, Aditypur Colony Site No.1, Adityapur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 56,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Bungalow No.3, Jhelum Road, Near Golmuri Club, Golmuri",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 57,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "35, Teachers Colony, Dimma Road, Mango",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 58,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "new Kalimati Road, Near Hyundai Showroom, Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 59,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Road No.4, H No.7, Azadnagar",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 60,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 61,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Dimna Road",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 62,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Syndicate Colony",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 63,
+    "name": "Dr. (Clinic)",
+    "specialization": "MD Doctors",
+    "clinic": "Dayal Trade Center",
+    "address": "Ground Floor, Dayal Trade Center, Adityapur",
+    "city": "Jamshedpur",
+    "phone": "07618788985",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 64,
+    "name": "Dr. (Clinic)",
+    "specialization": "MD Doctors",
+    "clinic": "Clinic",
+    "address": "Main Market, Parsudih",
+    "city": "Jamshedpur",
+    "phone": "07795670427",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 65,
+    "name": "Dr. (Clinic)",
+    "specialization": "MD Doctors",
+    "clinic": "Clinic",
+    "address": "Bistupur Main Road, Bistupur",
+    "city": "Jamshedpur",
+    "phone": "08123743909",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 66,
+    "name": "Dr. (Clinic)",
+    "specialization": "MD / Multi",
+    "clinic": "Jaisawal Complex Clinic",
+    "address": "Shop No.18, Ground Floor, 23/508 Jaisawal Complex, Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 67,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Tiwary Bechar Complex Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 68,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Kasidih, Sakchi",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 69,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Purulia Road, Mango",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 70,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "B Road, Sonari",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 71,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "College Road, Ghatsila, East Singhbhum",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 72,
+    "name": "Dr. (Clinic)",
+    "specialization": "Nephrology",
+    "clinic": "NephroPlus Dialysis & Kidney Care Centre",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "rentechdigital.com"
+  },
+  {
+    "s_no": 73,
+    "name": "Dr. (Clinic)",
+    "specialization": "Proctology",
+    "clinic": "Rao Piles Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "rentechdigital.com"
+  },
+  {
+    "s_no": 74,
+    "name": "Dr. Ankit Kumar Prasad",
+    "specialization": "Dermatology / Cosmetology",
+    "clinic": "Best Skin & Hair Laser Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "rentechdigital.com"
+  },
+  {
+    "s_no": 75,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Practice",
+    "clinic": "Clinic",
+    "address": "Straight Mile Road, Dhatkidih 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 76,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Practice",
+    "clinic": "Clinic",
+    "address": "Block No.2, Shastri Nagar, Kadma 831005",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 77,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Practice",
+    "clinic": "Clinic",
+    "address": "Shop No.5, M.P. Tower, Main Road, Adityapur-1 831013",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 78,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Practice",
+    "clinic": "Clinic",
+    "address": "Opposite BS Complex, Contractors Area, Bistupur 831001",
+    "city": "Jamshedpur",
+    "phone": "06576536294",
+    "source": "onefivenine.com"
+  },
+  {
+    "s_no": 79,
+    "name": "Dr. (Clinic)",
+    "specialization": "IVF Specialist",
+    "clinic": "IVF Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 80,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Surgeon",
+    "clinic": "Clinic",
+    "address": "Jamshedpur (51 yrs exp)",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 81,
+    "name": "Dr. (Clinic)",
+    "specialization": "Psychiatrist",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 82,
+    "name": "Dr. (Clinic)",
+    "specialization": "Ophthalmologist",
+    "clinic": "Clinic",
+    "address": "Jamshedpur (28 yrs exp)",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 83,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Brahmananda Narayana Multispeciality Hospital",
+    "address": "NH-33, Pardih Chowk, Tamolia, Saraikela Kharsawan",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 84,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Kadma",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 85,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Baliguma",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 86,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Namda Basti",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 87,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Dhatkidih",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 88,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Adityapur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 89,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "NH-33 Area",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 90,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Manift",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 91,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Gadhra",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 92,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Golmuri",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 93,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jugsalai",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 94,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Telco Colony",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 95,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Mango",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 96,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Sonari",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 97,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Sidhgora",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 98,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Boram",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 99,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Parsudih",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 100,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Bagbera",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 101,
+    "name": "Dr. Dinesh Kumar Singh",
+    "specialization": "Anesthesia (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 102,
+    "name": "Dr. Kamini",
+    "specialization": "Anesthesia",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 103,
+    "name": "Dr. Mohammad Naseem Jawed",
+    "specialization": "Anesthesia",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 104,
+    "name": "Dr. Paresh Mahato",
+    "specialization": "Anesthesia",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 105,
+    "name": "Dr. Parveen Upadhyay",
+    "specialization": "Anesthesia",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 106,
+    "name": "Dr. Ritesh Chandra",
+    "specialization": "Anesthesia",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 107,
+    "name": "Dr. Mrs. Manjari Singh",
+    "specialization": "Dental (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 108,
+    "name": "Dr. Ritesh Kumar Jha",
+    "specialization": "Dental",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 109,
+    "name": "Dr. Poonam Kumari",
+    "specialization": "Emergency (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 110,
+    "name": "Dr. Uday Kumar Sinha",
+    "specialization": "Emergency",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 111,
+    "name": "Dr. Ms. Ranjita Kiro",
+    "specialization": "Emergency",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 112,
+    "name": "Dr. Mrs. Padmaja Devi",
+    "specialization": "Emergency",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 113,
+    "name": "Dr. Keka Mukherjee",
+    "specialization": "Emergency",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 114,
+    "name": "Dr. Pratima Kumari",
+    "specialization": "Emergency",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 115,
+    "name": "Dr. Prem Prakash Shankar",
+    "specialization": "ENT (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 116,
+    "name": "Dr. Vijay Kumar",
+    "specialization": "ENT",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 117,
+    "name": "Dr. Pradip Kr. Tiwari",
+    "specialization": "ENT",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 118,
+    "name": "Dr. Mrs. Sujata Hota",
+    "specialization": "Gynaecology (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 119,
+    "name": "Dr. Alka Singh",
+    "specialization": "Gynaecology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 120,
+    "name": "Dr. Punam Dubey (Pandey)",
+    "specialization": "Gynaecology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 121,
+    "name": "Dr. Kavita Priya",
+    "specialization": "Gynaecology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 122,
+    "name": "Dr. Neha Bhatnagar",
+    "specialization": "Gynaecology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 123,
+    "name": "Dr. Manisha Mishra",
+    "specialization": "Gynaecology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 124,
+    "name": "Dr. Pravir Kumar Singh",
+    "specialization": "Medicine (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 125,
+    "name": "Dr. S.K. Sinha",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 126,
+    "name": "Dr. Sunil Kumar Sinha",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 127,
+    "name": "Dr. Jhulan Mukherjee",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 128,
+    "name": "Dr. A.K. Saha",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 129,
+    "name": "Dr. Alok Priyadarshi",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 130,
+    "name": "Dr. Mrs. Kalpana Saha",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 131,
+    "name": "Dr. Nishant Kumar Pandey",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 132,
+    "name": "Dr. Namrata Golash",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 133,
+    "name": "Dr. Mrs. Amita Bagchi",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 134,
+    "name": "Dr. Pyara Masiha Topno",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 135,
+    "name": "Dr. Thakurmani",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 136,
+    "name": "Dr. Neha Rani",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 137,
+    "name": "Dr. Sushmita",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 138,
+    "name": "Dr. Shambhavi Jha",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 139,
+    "name": "Dr. Jayashree Das",
+    "specialization": "Medicine",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 140,
+    "name": "Dr. Ajay Kumar Gupta",
+    "specialization": "Ophthalmology (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 141,
+    "name": "Dr. Bandana",
+    "specialization": "Ophthalmology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 142,
+    "name": "Dr. Bipul Kumar",
+    "specialization": "Ophthalmology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 143,
+    "name": "Dr. Rashmi Raina",
+    "specialization": "Ophthalmology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 144,
+    "name": "Dr. Atma Prakash Vatsayan",
+    "specialization": "Ophthalmology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 145,
+    "name": "Dr. S. Ghosal",
+    "specialization": "Orthopaedics (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 146,
+    "name": "Dr. Mukesh Kumar",
+    "specialization": "Orthopaedics",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 147,
+    "name": "Dr. Hanumanthu Jagannath",
+    "specialization": "Orthopaedics",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 148,
+    "name": "Dr. Ashok Kumar",
+    "specialization": "Paediatrics (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 149,
+    "name": "Dr. Nisha Prasad",
+    "specialization": "Paediatrics",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 150,
+    "name": "Dr. Barun Kumar Jha",
+    "specialization": "Paediatrics",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 151,
+    "name": "Dr. Prita Naaz Dubraj",
+    "specialization": "Paediatrics",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 152,
+    "name": "Dr. Kamna",
+    "specialization": "Paediatrics",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 153,
+    "name": "Dr. Rajesh Kumar Thakur",
+    "specialization": "Pathology (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 154,
+    "name": "Dr. Ranvijay Pratap",
+    "specialization": "Pathology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 155,
+    "name": "Dr. Nirmalesh Mahata",
+    "specialization": "Pathology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 156,
+    "name": "Dr. Chandan Singh",
+    "specialization": "Psychiatry (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 157,
+    "name": "Dr. Sayad Arshad Hussain",
+    "specialization": "Radiology",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 158,
+    "name": "Dr. Udayan Biswas",
+    "specialization": "Radiology (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 159,
+    "name": "Dr. R.K. Krishna",
+    "specialization": "Surgery (HOD)",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 160,
+    "name": "Dr. Ashok Kumar",
+    "specialization": "Surgery",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 161,
+    "name": "Dr. Anish Kumar Gandhi",
+    "specialization": "Surgery",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 162,
+    "name": "Dr. Sujit Kumar",
+    "specialization": "Surgery",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 163,
+    "name": "Dr. Kumari Sabita",
+    "specialization": "Surgery",
+    "clinic": "BCCL Central Hospital Dhanbad",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "bcclweb.in"
+  },
+  {
+    "s_no": 164,
+    "name": "Dr. Aadil Shoaib",
+    "specialization": "General Physician",
+    "clinic": "Dr. Aadil Shoaib Clinic",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 165,
+    "name": "Dr. S. Roy (Soumadut Roy)",
+    "specialization": "General Physician",
+    "clinic": "Roy Clinic & Roy Dental Care",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 166,
+    "name": "Dr. N K Modi",
+    "specialization": "Oncology",
+    "clinic": "Asarfi Hospital",
+    "address": "Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 167,
+    "name": "Dr. Radhika Mohan",
+    "specialization": "General Medicine",
+    "clinic": "Asarfi Hospital",
+    "address": "Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 168,
+    "name": "Dr. Saket Narnoli",
+    "specialization": "General Medicine",
+    "clinic": "Asarfi Hospital",
+    "address": "Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 169,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "CMRI, Bartand",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 170,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Life Line Hospital",
+    "address": "Kalimela",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 171,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Dr. Mishra's Family Clinic",
+    "address": "Saraidhela",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 172,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician / Cardiologist",
+    "clinic": "Cardio Diabetic Mediclinic And Cardiac Imaging Center",
+    "address": "Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 173,
+    "name": "Dr. Kumar Saurabh",
+    "specialization": "Cardiologist",
+    "clinic": "PMCH Dhanbad",
+    "address": "B.C.C.L. Township, Koyla Nagar, Dhanbad 826005",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 174,
+    "name": "Dr. V K Pandey",
+    "specialization": "General Physician",
+    "clinic": "Central Hospital Dhanbad",
+    "address": "School of Paramedical Technology, Jagjiwan Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 175,
+    "name": "Dr. Saurabh Prakash",
+    "specialization": "General Physician",
+    "clinic": "Sanjivani Rural Medicare & Research Centre",
+    "address": "C/O Sanjivani Rural Medicare, Katras Bazar, Dhanbad 828114, Shyamdih",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 176,
+    "name": "Dr. G N Singh",
+    "specialization": "General Physician",
+    "clinic": "Dhanvantri Clinic",
+    "address": "MIGA40 Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 177,
+    "name": "Dr. B K Singh",
+    "specialization": "General Physician",
+    "clinic": "Shankar Diagnostic Centre",
+    "address": "Polytechnic Road, Shanti Colony, Saraidhela, Dhanbad 826001",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 178,
+    "name": "Dr. Umendra Kumar",
+    "specialization": "Paediatrician",
+    "clinic": "PMCH Dhanbad",
+    "address": "PMCH Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 179,
+    "name": "Dr. Sk Hamidurrahman",
+    "specialization": "Paediatrician",
+    "clinic": "Dr. Sk Hamidurrahman Clinic",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 180,
+    "name": "Dr. (Clinic)",
+    "specialization": "Ophthalmologist",
+    "clinic": "Eye Centre",
+    "address": "Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 181,
+    "name": "Dr. (Clinic)",
+    "specialization": "Ophthalmologist",
+    "clinic": "ASG Hospital - Dhanbad",
+    "address": "Bank More",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 182,
+    "name": "Dr. K K Murari",
+    "specialization": "Ophthalmologist",
+    "clinic": "DR K K Murari Clinic",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 183,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Hatia Road Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "09980769605",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 184,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Kusum Vihar Phase 2, Kusum Vihar",
+    "city": "Dhanbad",
+    "phone": "08460538002",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 185,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Kolakusuma, Bardohi",
+    "city": "Dhanbad",
+    "phone": "08401250129",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 186,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Phusbunglow, Jamadoba Road, Bhaga",
+    "city": "Dhanbad",
+    "phone": "08197323201",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 187,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Bamunara, Adarsh Nagar",
+    "city": "Dhanbad",
+    "phone": "09054568081",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 188,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "HE School Road, Hirapur",
+    "city": "Dhanbad",
+    "phone": "08460479199",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 189,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Adarsh Nagar",
+    "city": "Dhanbad",
+    "phone": "08123840068",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 190,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Housing Colony",
+    "city": "Dhanbad",
+    "phone": "08460377342",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 191,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jharnapara Road, Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "09035084520",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 192,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Katras Road, Bank More",
+    "city": "Dhanbad",
+    "phone": "08460266908",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 193,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Near Om Sai Blood Bank, Housing Colony",
+    "city": "Dhanbad",
+    "phone": "08123290348",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 194,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Near Om Sai Blood Bank, Housing Colony",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 195,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Satvik Ortho Centre",
+    "address": "CMRI, Bartand",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 196,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Dhanbad Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "practo.com"
+  },
+  {
+    "s_no": 197,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Naya Bazar Wasseypur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 198,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "CMPF Colony",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 199,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Manaitand",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 200,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jagjivan Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 201,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Damodarpur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 202,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Yadavpur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 203,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Kalyanpur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 204,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Murradih",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 205,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "BCCL Township",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 206,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Patliputra Nursing Home",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+918877645555",
+    "source": "patliputrahospital.com"
+  },
+  {
+    "s_no": 207,
+    "name": "Dr. Rahul Kumar",
+    "specialization": "Cardiology",
+    "clinic": "Patliputra Multispeciality Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+918877645555",
+    "source": "patliputrahospital.com"
+  },
+  {
+    "s_no": 208,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Anesthesia",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 209,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Dental",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 210,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "ENT",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 211,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Gynaecology and Obstetrics",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 212,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Internal Medicine",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 213,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Ophthalmology",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 214,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Emergency & Trauma",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 215,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Respiratory Medicine",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 216,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Dermatology",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 217,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Nagnagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 218,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Dhanbad Bazar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 219,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "D.S.E. Area",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "apollo247.com"
+  },
+  {
+    "s_no": 220,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Titichapuri",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 221,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jorapokhar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 222,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Satyam Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 223,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Sardar Patel Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 224,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Hirapur",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 225,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Gosaidi",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 226,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Amaghata",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 227,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Barmasia",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 228,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jai Prakash Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 229,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Bank More",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 230,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Binod Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 231,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Sastri Nagar",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 232,
+    "name": "Dr. (Clinic)",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "CIMFR Colony",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 233,
+    "name": "Dr. Ritesh Kauntia",
+    "specialization": "Nephrology",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 234,
+    "name": "Dr. Sridhar Pradhan",
+    "specialization": "General Surgery (HOD)",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 235,
+    "name": "Dr. Sudhir Mishra",
+    "specialization": "Paediatrics (HOD)",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 236,
+    "name": "Dr. Asit Kumar Mishra",
+    "specialization": "Paediatrics",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 237,
+    "name": "Dr. Jayanta Kumar Laik",
+    "specialization": "Orthopaedics",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 238,
+    "name": "Dr. Ajai Mohan Singh",
+    "specialization": "Dental Surgery",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 239,
+    "name": "Dr. Anil Kumar Choudhary",
+    "specialization": "Orthopaedics",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 240,
+    "name": "Dr. Mamta Rath Datta",
+    "specialization": "Obstetrics & Gynaecology (Head)",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 241,
+    "name": "Dr. Alokananda Ray",
+    "specialization": "Obstetrics & Gynaecology",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 242,
+    "name": "Dr. Prasenjit Goswami",
+    "specialization": "Burn & Plastic Surgery",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 243,
+    "name": "Dr. Sunil Kumar",
+    "specialization": "Surgical Gastroenterology (Chief)",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 244,
+    "name": "Dr. Hari Ignatious Pandey",
+    "specialization": "Paediatric Surgery (Chief)",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 245,
+    "name": "Dr. Niraj Kumar Choudhary",
+    "specialization": "Neurosurgery",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 246,
+    "name": "Dr. Jeevesh Mallik",
+    "specialization": "Neurosurgery",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 247,
+    "name": "Dr. Pankaj Singodia",
+    "specialization": "Burn & Plastic Surgery",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 248,
+    "name": "Dr. Jojo James",
+    "specialization": "General Surgery",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 249,
+    "name": "Dr. Prabhakar",
+    "specialization": "Nephrology",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 250,
+    "name": "Dr. Arunima Verma",
+    "specialization": "Surgical Gastroenterology",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 251,
+    "name": "Dr. Rameswar Prasad",
+    "specialization": "General Medicine",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 252,
+    "name": "Dr. Sarita Kumari",
+    "specialization": "General Medicine",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 253,
+    "name": "Dr. Reyaz Ahmad",
+    "specialization": "Neurology (DM)",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 254,
+    "name": "Dr. K P Dubey",
+    "specialization": "ENT",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 255,
+    "name": "Dr. Srikant Agarwal",
+    "specialization": "Pulmonology",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 256,
+    "name": "Dr. Manoj Kumar Sahoo",
+    "specialization": "Psychiatry",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 257,
+    "name": "Dr. Sangeeta Singhal",
+    "specialization": "Gynaecology & Obstetrics",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 258,
+    "name": "Dr. Amiya Ranjan",
+    "specialization": "Gastroenterology",
+    "clinic": "Tata Main Hospital",
+    "address": "C Road West, Northern Town, Bistupur, Jamshedpur 831001",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "justdial.com"
+  },
+  {
+    "s_no": 259,
+    "name": "Dr. DebnathMukherjee",
+    "specialization": "Cardiology",
+    "clinic": "Dr. DebnathMukherjee Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 260,
+    "name": "Dr. OmPrakash",
+    "specialization": "Psychiatry",
+    "clinic": "Dr. OmPrakash Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 261,
+    "name": "Dr. Palit",
+    "specialization": "Psychiatry",
+    "clinic": "Dr. Palit Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 262,
+    "name": "Dr. G. N. Sharma",
+    "specialization": "General Physician",
+    "clinic": "Dr. G. N. Sharma's Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 263,
+    "name": "Dr. Sarwar",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 264,
+    "name": "Dr. Binod Agarwal",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 265,
+    "name": "Dr. Alok Kumar",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 266,
+    "name": "Dr. Rohit Kumar",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 267,
+    "name": "Dr. K V Sebastian",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 268,
+    "name": "Dr. Rohit Raj",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 269,
+    "name": "Dr. Tapas Chatterjee",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 270,
+    "name": "Dr. Vishal Lodha",
+    "specialization": "General Physician",
+    "clinic": "Clinic",
+    "address": "Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "drlogy.com"
+  },
+  {
+    "s_no": 271,
+    "name": "Dr. ML Ali",
+    "specialization": "Internal Medicine (Clinical Director)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 272,
+    "name": "Dr. Shalabh Rastogi",
+    "specialization": "ENT (HOD)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 273,
+    "name": "Dr. Santosh Kumar",
+    "specialization": "ENT",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 274,
+    "name": "Dr. Sanjay Kumar",
+    "specialization": "General Surgery (Chief)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 275,
+    "name": "Dr. Rajni Bagai",
+    "specialization": "Obstetrics & Gynaecology (HOD)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 276,
+    "name": "Dr. Bhaskar Dutta",
+    "specialization": "General Surgery (Chief)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 277,
+    "name": "Dr. Shipra Sarkar",
+    "specialization": "Obstetrics & Gynaecology",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 278,
+    "name": "Dr. AK Upadhyay",
+    "specialization": "General Surgery (Chief Registrar)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 279,
+    "name": "Dr. Amitabh Thakur",
+    "specialization": "General Surgery",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 280,
+    "name": "Dr. Anuja Verma",
+    "specialization": "Internal Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 281,
+    "name": "Dr. Somenath Ghosh",
+    "specialization": "Obstetrics & Gynaecology",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 282,
+    "name": "Dr. Smriti Nath",
+    "specialization": "Paediatrics (HOD & Chief)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 283,
+    "name": "Dr. Ayush Kumar",
+    "specialization": "Internal Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 284,
+    "name": "Dr. Ashik Hussain",
+    "specialization": "Internal Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 285,
+    "name": "Dr. Adil Rashid",
+    "specialization": "Internal Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 286,
+    "name": "Dr. S Pavan",
+    "specialization": "Orthopaedics & Spine Surgery (HOD)",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 287,
+    "name": "Dr. Vivek Sharma",
+    "specialization": "Paediatrics",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 288,
+    "name": "Dr. RK Mehta",
+    "specialization": "Internal Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 289,
+    "name": "Dr. Priyanka Kumari",
+    "specialization": "General Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 290,
+    "name": "Dr. P Anand",
+    "specialization": "General Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 291,
+    "name": "Dr. Kumar Mitrabanu",
+    "specialization": "General Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 292,
+    "name": "Dr. RK Thakur",
+    "specialization": "General Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 293,
+    "name": "Dr. Anup Jha",
+    "specialization": "General Medicine",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 294,
+    "name": "Dr. Rajan Verma",
+    "specialization": "Ophthalmology",
+    "clinic": "Tata Motors Hospital",
+    "address": "Telco Colony, Jamshedpur 831004",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "credihealth.com"
+  },
+  {
+    "s_no": 295,
+    "name": "Dr. Apurvaishanhospitalgolmuri",
+    "specialization": "Cardiology",
+    "clinic": "Apurva Ishan Hospital",
+    "address": "Golmuri",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 296,
+    "name": "Dr. Md. Perbez",
+    "specialization": "Dentist",
+    "clinic": "Smiline Dental Care and Implant Center",
+    "address": "Sindri / Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 297,
+    "name": "Dr. Anjani Shukla",
+    "specialization": "Dermatology",
+    "clinic": "Khushi Skin Clinic",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 298,
+    "name": "Dr. Rishabh Kumar Rana",
+    "specialization": "Sexology",
+    "clinic": "Lal Medicare",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 299,
+    "name": "Dr. (Clinic)",
+    "specialization": "Gynaecology",
+    "clinic": "Dr. Gurudas Banerjee Memorial Polymed Clinic",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 300,
+    "name": "Dr. (Clinic)",
+    "specialization": "Orthopaedics",
+    "clinic": "Clinic (22 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 301,
+    "name": "Dr. (Clinic)",
+    "specialization": "Nephrology",
+    "clinic": "Clinic (4 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 302,
+    "name": "Dr. (Clinic)",
+    "specialization": "Dentist",
+    "clinic": "Clinic (12 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 303,
+    "name": "Dr. (Clinic)",
+    "specialization": "Homeopathy",
+    "clinic": "Clinic (41 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 304,
+    "name": "Dr. (Clinic)",
+    "specialization": "Gynaecology",
+    "clinic": "Clinic (23 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 305,
+    "name": "Dr. (Clinic)",
+    "specialization": "Sexology",
+    "clinic": "Clinic (21 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 306,
+    "name": "Dr. (Clinic)",
+    "specialization": "Dermatology",
+    "clinic": "Clinic (13 yrs exp)",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 307,
+    "name": "Dr. Neuro (Clinic)",
+    "specialization": "Neuropsychiatry",
+    "clinic": "Neuro Psychiatry and Child Guidance Clinic",
+    "address": "TMH OPD Kadma Jamshedpur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 308,
+    "name": "Dr. (Clinic)",
+    "specialization": "Ayurveda",
+    "clinic": "Jiva Ayurveda - Jamshedpur",
+    "address": "1st Floor, Yashkamal Complex (Steel City Hospital), Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 309,
+    "name": "Dr. (Clinic)",
+    "specialization": "Dentist",
+    "clinic": "Healthy Smile Dental Clinic",
+    "address": "Shop No.141, 3rd Floor, Kamani Centre, Bistupur",
+    "city": "Jamshedpur",
+    "phone": "N/A",
+    "source": "lybrate.com"
+  },
+  {
+    "s_no": 310,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Physiotherapy",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 311,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Telemedicine",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 312,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Preventive Health",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  },
+  {
+    "s_no": 313,
+    "name": "Dr. (Asian Hospital)",
+    "specialization": "Blood Bank & Laboratory",
+    "clinic": "Asian Dwarkadas Jalan Super Specialty Hospital",
+    "address": "Dhanbad",
+    "city": "Dhanbad",
+    "phone": "+917070038888",
+    "source": "asiandhanbad.aimsindia.com"
+  }
+]

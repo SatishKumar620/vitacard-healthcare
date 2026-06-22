@@ -1,0 +1,846 @@
+{
+  "name": "Doctor RAG Matching Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "doctor-chat",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook",
+      "name": "webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\nconst session_id = body.session_id || null;\nconst user_message = body.message || '';\n\nif (!user_message || user_message.trim() === '') {\n  throw new Error('Message is required');\n}\n\nreturn [{\n  json: {\n    session_id: session_id,\n    user_message: user_message.trim(),\n    is_new_session: !session_id\n  }\n}];"
+      },
+      "id": "node-parse-input",
+      "name": "Parse Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-new-session",
+              "leftValue": "={{ $json.is_new_session }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-check-session",
+      "name": "Is New Session?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO chat_sessions (session_id, original_query, questions_asked, answers_collected, status, created_at)\nVALUES (\n  gen_random_uuid()::TEXT,\n  '{{ $('Parse Input').item.json.user_message.replace(/'/g, \"''\") }}',\n  '[]'::jsonb,\n  '[]'::jsonb,\n  'questioning',\n  NOW()\n)\nRETURNING session_id, original_query, questions_asked, answers_collected, status;",
+        "options": {}
+      },
+      "id": "node-create-session",
+      "name": "Create Session in DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        900,
+        260
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT session_id, original_query, questions_asked, answers_collected, status\nFROM chat_sessions\nWHERE session_id = '{{ $('Parse Input').item.json.session_id }}'\nLIMIT 1;",
+        "options": {}
+      },
+      "id": "node-load-session",
+      "name": "Load Existing Session",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        900,
+        540
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Merge session data from either create or load path\nconst item = $input.first().json;\nreturn [{\n  json: {\n    session_id: item.session_id,\n    original_query: item.original_query,\n    questions_asked: item.questions_asked || [],\n    answers_collected: item.answers_collected || [],\n    status: item.status || 'questioning'\n  }\n}];"
+      },
+      "id": "node-merge-session",
+      "name": "Merge Session Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO session_messages (session_id, role, content, turn_number, created_at)\nVALUES (\n  '{{ $('Merge Session Data').item.json.session_id }}',\n  'user',\n  '{{ $('Parse Input').item.json.user_message.replace(/'/g, \"''\") }}',\n  jsonb_array_length('{{ JSON.stringify($('Merge Session Data').item.json.answers_collected).replace(/'/g, \"''\") }}'::jsonb) + 1,\n  NOW()\n);",
+        "options": {}
+      },
+      "id": "node-save-user-msg",
+      "name": "Save User Message",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        1340,
+        400
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const session = $('Merge Session Data').first().json;\nconst userMessage = $('Parse Input').first().json.user_message;\nconst questionsAsked = session.questions_asked || [];\nconst answersCollected = session.answers_collected || [];\nconst status = session.status;\nconst originalQuery = session.original_query || '';\n\nconst isReport = userMessage.toLowerCase().includes('report') || userMessage.length > 200;\n\n// If status is already 'searching' or 'done', or if a report is uploaded, skip to search\nif (status === 'searching' || status === 'done' || isReport) {\n  return [{ json: { ...session, userMessage, action: 'search', questionsAsked, answersCollected } }];\n}\n\n// If this is the first message (no questions asked yet), action = generate_questions\nif (questionsAsked.length === 0) {\n  return [{ json: { ...session, userMessage, action: 'generate_questions', questionsAsked, answersCollected } }];\n}\n\n// Save latest answer\nconst updatedAnswers = [...answersCollected, userMessage];\n\n// 1. Must ask at least 2 questions (so if we only have 1 answer, we always ask the next question)\nif (updatedAnswers.length < 2) {\n  return [{ json: { ...session, userMessage, action: 'next_question', questionsAsked, answersCollected: updatedAnswers } }];\n}\n\n// 2. Must ask at most 3 questions (so if we have collected 3 answers, we always proceed to search)\nif (updatedAnswers.length >= 3) {\n  return [{ json: { ...session, userMessage, action: 'search', questionsAsked, answersCollected: updatedAnswers } }];\n}\n\n// 3. For 2 questions: Apply heuristic to decide if we should stop early or ask the 3rd question.\nconst fullText = (originalQuery + ' ' + updatedAnswers.join(' ')).toLowerCase();\nconst hasLocation = /boston|chicago|london|new york|houston|los angeles|miami|seattle|austin|san francisco|dallas|philadelphia|atlanta|denver/i.test(fullText);\nconst isDetailed = fullText.length > 150;\n\nif (hasLocation || isDetailed) {\n  return [{ json: { ...session, userMessage, action: 'search', questionsAsked, answersCollected: updatedAnswers } }];\n}\n\n// Otherwise, ask a 3rd question\nreturn [{ json: { ...session, userMessage, action: 'next_question', questionsAsked, answersCollected: updatedAnswers } }];"
+      },
+      "id": "node-session-logic",
+      "name": "Session Flow Logic",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1560,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "id": "cond-action",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "search",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-route-action",
+      "name": "Route: Search or Question?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const session = $input.first().json;\nconst questionsAsked = session.questionsAsked || [];\nconst answersCollected = session.answersCollected || [];\nconst originalQuery = session.original_query;\n\n// Build conversation context for Cohere\nlet conversationContext = `Patient's original query: ${originalQuery}\\n\\n`;\nfor (let i = 0; i < questionsAsked.length; i++) {\n  conversationContext += `Bot Question ${i+1}: ${questionsAsked[i]}\\n`;\n  if (answersCollected[i]) {\n    conversationContext += `Patient Answer ${i+1}: ${answersCollected[i]}\\n`;\n  }\n}\n\nconst isFirstQuestion = questionsAsked.length === 0;\n\nconst systemPrompt = `You are a medical assistant chatbot helping patients find the right doctor.\nYour job is to ask targeted clarifying questions to understand the patient's medical needs.\nAsk ONE specific question at a time. Be empathetic, clear, and professional.\nFocus on: symptoms severity, duration, location preference, language preference, budget range, urgency level.\nOnly return the question text, nothing else.`;\n\nconst userPrompt = isFirstQuestion \n  ? `Patient query: \"${originalQuery}\"\\n\\nAsk the first clarifying question to better understand their medical need. Ask about their primary symptom or concern in more detail.`\n  : `${conversationContext}\\nBased on the conversation so far, ask the next most important clarifying question. Questions asked so far: ${questionsAsked.length}. Do not repeat previous questions.`;\n\nreturn [{\n  json: {\n    session_id: session.session_id,\n    original_query: originalQuery,\n    questionsAsked,\n    answersCollected,\n    systemPrompt,\n    userPrompt,\n    action: session.action\n  }\n}];"
+      },
+      "id": "node-build-question-prompt",
+      "name": "Build Question Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cohere.com/v2/embed",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "embed-english-v3.0"
+            },
+            {
+              "name": "texts",
+              "value": "={{ [$('Build Search Context').item.json.fullContext] }}"
+            },
+            {
+              "name": "input_type",
+              "value": "search_query"
+            },
+            {
+              "name": "embedding_types",
+              "value": "={{ ['float'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-cohere-embed",
+      "name": "Cohere - Generate Embedding",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2440,
+        540
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_COHERE_CREDENTIAL_ID",
+          "name": "Cohere API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "llama-3.3-70b-versatile"
+            },
+            {
+              "name": "messages",
+              "value": "={{ [ { \"role\": \"system\", \"content\": $json.systemPrompt }, { \"role\": \"user\", \"content\": $json.userPrompt } ] }}"
+            },
+            {
+              "name": "max_tokens",
+              "value": "={{ 150 }}"
+            },
+            {
+              "name": "temperature",
+              "value": "={{ 0.3 }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false
+            }
+          }
+        }
+      },
+      "id": "node-groq-generate-question",
+      "name": "Groq - Generate Question",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2220,
+        260
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_GROQ_CREDENTIAL_ID",
+          "name": "Groq API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const llmResponse = $input.first().json;\nconst buildData = $('Build Question Prompt').first().json;\n\n// Extract question text from Groq/LLM response\nlet questionText = '';\ntry {\n  questionText = llmResponse.choices?.[0]?.message?.content || \n                 llmResponse.message?.content?.[0]?.text || \n                 llmResponse.text || \n                 'Could you please provide more details about your medical concern?';\n} catch(e) {\n  questionText = 'Could you please provide more details about your medical concern?';\n}\n\nquestionText = questionText.trim();\n\n// Update questions_asked array\nconst updatedQuestions = [...buildData.questionsAsked, questionText];\n\nreturn [{\n  json: {\n    session_id: buildData.session_id,\n    original_query: buildData.original_query,\n    updatedQuestions,\n    updatedAnswers: buildData.answersCollected,\n    questionText,\n    questionsCount: updatedQuestions.length\n  }\n}];"
+      },
+      "id": "node-extract-question",
+      "name": "Extract Question Text",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2440,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE chat_sessions\nSET \n  questions_asked = '{{ JSON.stringify($json.updatedQuestions).replace(/'/g, \"''\") }}'::jsonb,\n  answers_collected = '{{ JSON.stringify($json.updatedAnswers).replace(/'/g, \"''\") }}'::jsonb,\n  status = CASE \n    WHEN {{ $json.questionsCount }} >= 3 THEN 'searching'\n    ELSE 'questioning'\n  END\nWHERE session_id = '{{ $json.session_id }}';\n\nINSERT INTO session_messages (session_id, role, content, turn_number, created_at)\nVALUES (\n  '{{ $json.session_id }}',\n  'bot',\n  '{{ $json.questionText.replace(/'/g, \"''\") }}',\n  {{ $json.questionsCount }},\n  NOW()\n);",
+        "options": {}
+      },
+      "id": "node-save-question",
+      "name": "Save Question to DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        2660,
+        260
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $('Extract Question Text').first().json;\nconst questionsCount = data.questionsCount;\nconst totalQuestions = 3;\n\nreturn [{\n  json: {\n    success: true,\n    session_id: data.session_id,\n    type: 'question',\n    question_number: questionsCount,\n    total_questions: totalQuestions,\n    progress: Math.round((questionsCount / totalQuestions) * 100),\n    message: data.questionText,\n    card: {\n      type: 'question_card',\n      title: `Question ${questionsCount} of ${totalQuestions}`,\n      subtitle: 'Help us find your perfect doctor',\n      content: data.questionText,\n      progress_bar: Math.round((questionsCount / totalQuestions) * 100),\n      original_query: data.original_query,\n      badge: questionsCount === 1 ? 'Getting Started' : questionsCount >= 2 ? 'Almost Done!' : 'In Progress'\n    }\n  }\n}];"
+      },
+      "id": "node-format-question-response",
+      "name": "Format Question Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const session = $input.first().json;\nconst originalQuery = session.original_query;\nconst questionsAsked = session.questionsAsked || [];\nconst answersCollected = session.answersCollected || [];\n\n// Build rich context for embedding\nlet fullContext = `Medical Query: ${originalQuery}\\n`;\nfor (let i = 0; i < questionsAsked.length; i++) {\n  fullContext += `Q: ${questionsAsked[i]}\\n`;\n  if (answersCollected[i]) {\n    fullContext += `A: ${answersCollected[i]}\\n`;\n  }\n}\n\n// Update DB status to searching\nreturn [{\n  json: {\n    session_id: session.session_id,\n    original_query: originalQuery,\n    questionsAsked,\n    answersCollected,\n    fullContext: fullContext.trim()\n  }\n}];"
+      },
+      "id": "node-build-search-context",
+      "name": "Build Search Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE chat_sessions SET status = 'searching' WHERE session_id = '{{ $json.session_id }}';",
+        "options": {}
+      },
+      "id": "node-update-status-searching",
+      "name": "Update Status to Searching",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        2220,
+        540
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const cohereData = $input.first().json;\nconst searchContext = $('Build Search Context').first().json;\n\n// Extract embedding vector\nlet embedding = [];\ntry {\n  embedding = cohereData.embeddings?.float?.[0] || cohereData.embeddings?.[0] || [];\n} catch(e) {\n  throw new Error('Failed to extract embedding from Cohere response');\n}\n\nif (embedding.length === 0) {\n  throw new Error('Empty embedding returned from Cohere');\n}\n\nconst embeddingStr = '[' + embedding.join(',') + ']';\n\nreturn [{\n  json: {\n    session_id: searchContext.session_id,\n    original_query: searchContext.original_query,\n    questionsAsked: searchContext.questionsAsked,\n    answersCollected: searchContext.answersCollected,\n    fullContext: searchContext.fullContext,\n    embeddingStr\n  }\n}];"
+      },
+      "id": "node-extract-embedding",
+      "name": "Extract Embedding Vector",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2660,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  d.id,\n  d.name,\n  d.specialization,\n  d.experience_years,\n  d.location,\n  d.languages,\n  d.availability,\n  d.rating,\n  d.fee_range,\n  d.bio,\n  d.phone,\n  d.email,\n  d.hospital_name,\n  d.profile_image_url,\n  CASE WHEN d.embedding IS NOT NULL THEN 1 - (d.embedding <=> '{{ $json.embeddingStr }}'::vector) ELSE 0.5 END AS similarity_score\nFROM doctors d\nORDER BY CASE WHEN d.embedding IS NOT NULL THEN d.embedding <=> '{{ $json.embeddingStr }}'::vector ELSE 1.0 END\nLIMIT 5;",
+        "options": {}
+      },
+      "id": "node-pgvector-search",
+      "name": "pgvector Semantic Search",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        2880,
+        540
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const searchResults = $input.all();\nconst embedData = $('Extract Embedding Vector').first().json;\n\nif (!searchResults || searchResults.length === 0) {\n  return [{\n    json: {\n      session_id: embedData.session_id,\n      original_query: embedData.original_query,\n      fullContext: embedData.fullContext,\n      doctors: [],\n      hasResults: false\n    }\n  }];\n}\n\nconst doctors = searchResults.map(item => item.json);\n\n// Format doctors list for Cohere ranking prompt\nconst doctorsText = doctors.map((doc, i) => \n  `Doctor ${i+1}:\\n` +\n  `- Name: ${doc.name}\\n` +\n  `- Specialization: ${doc.specialization}\\n` +\n  `- Experience: ${doc.experience_years} years\\n` +\n  `- Location: ${doc.location}\\n` +\n  `- Languages: ${Array.isArray(doc.languages) ? doc.languages.join(', ') : doc.languages}\\n` +\n  `- Availability: ${doc.availability}\\n` +\n  `- Rating: ${doc.rating}/5\\n` +\n  `- Fee Range: ${doc.fee_range}\\n` +\n  `- Bio: ${doc.bio}\\n` +\n  `- Similarity Score: ${(doc.similarity_score * 100).toFixed(1)}%`\n).join('\\n\\n');\n\nreturn [{\n  json: {\n    session_id: embedData.session_id,\n    original_query: embedData.original_query,\n    fullContext: embedData.fullContext,\n    doctors,\n    doctorsText,\n    hasResults: true\n  }\n}];"
+      },
+      "id": "node-process-search-results",
+      "name": "Process Search Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3100,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "llama-3.3-70b-versatile"
+            },
+            {
+              "name": "messages",
+              "value": "={{ [ { \"role\": \"system\", \"content\": \"You are a medical assistant that helps patients find the best doctor. Analyze the patient's needs and the available doctors, then select the BEST matching doctor. Return ONLY a valid JSON object with no extra text, no markdown, no explanation. The JSON must have these exact keys: best_match_index (0-based integer), match_reason (string, max 100 words), confidence_score (float 0-1), key_strengths (array of 3 strings), recommendation_note (string, 1 sentence patient-friendly message), report_summary (string, a short 2-3 sentence summary summarizing the patient's medical report/history if provided in the context, otherwise empty string).\" }, { \"role\": \"user\", \"content\": \"Patient Context:\\n\" + $json.fullContext + \"\\n\\nAvailable Doctors:\\n\" + $json.doctorsText + \"\\n\\nSelect the best doctor and return the JSON.\" } ] }}"
+            },
+            {
+              "name": "max_tokens",
+              "value": "={{ 500 }}"
+            },
+            {
+              "name": "temperature",
+              "value": "={{ 0.2 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-groq-rank",
+      "name": "Groq - Rank & Select Doctor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3320,
+        540
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_GROQ_CREDENTIAL_ID",
+          "name": "Groq API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const llmResponse = $input.first().json;\nconst searchData = $('Process Search Results').first().json;\n\nlet rankingData = {};\ntry {\n  let rawText = llmResponse.choices?.[0]?.message?.content || llmResponse.message?.content?.[0]?.text || llmResponse.text || '{}';\n  // Strip markdown code blocks if present\n  rawText = rawText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  rankingData = JSON.parse(rawText);\n} catch(e) {\n  rankingData = {\n    best_match_index: 0,\n    match_reason: 'Best available match based on your medical needs.',\n    confidence_score: 0.85,\n    key_strengths: ['Relevant specialization', 'Strong experience', 'Good availability'],\n    recommendation_note: 'This doctor is well-suited to address your medical needs.',\n    report_summary: ''\n  };\n}\n\nconst bestIndex = rankingData.best_match_index || 0;\nconst bestDoctor = searchData.doctors[bestIndex] || searchData.doctors[0];\nconst allDoctors = searchData.doctors;\n\nif (!bestDoctor) {\n  return [{\n    json: {\n      success: false,\n      session_id: searchData.session_id,\n      type: 'no_results',\n      message: 'No matching doctors found. Please refine your search.'\n    }\n  }];\n}\n\n// Build rich card output\nconst doctorCard = {\n  type: 'doctor_card',\n  best_match: {\n    id: bestDoctor.id,\n    name: bestDoctor.name,\n    specialization: bestDoctor.specialization,\n    experience_years: bestDoctor.experience_years,\n    location: bestDoctor.location,\n    languages: Array.isArray(bestDoctor.languages) ? bestDoctor.languages : [bestDoctor.languages],\n    availability: bestDoctor.availability,\n    rating: bestDoctor.rating,\n    fee_range: bestDoctor.fee_range,\n    bio: bestDoctor.bio,\n    phone: bestDoctor.phone || null,\n    email: bestDoctor.email || null,\n    hospital_name: bestDoctor.hospital_name || null,\n    profile_image_url: bestDoctor.profile_image_url || null,\n    similarity_score: parseFloat((bestDoctor.similarity_score * 100).toFixed(1))\n  },\n  ai_analysis: {\n    confidence_score: parseFloat((rankingData.confidence_score * 100).toFixed(1)),\n    match_reason: rankingData.match_reason,\n    key_strengths: rankingData.key_strengths || [],\n    recommendation_note: rankingData.recommendation_note,\n    report_summary: rankingData.report_summary || ''\n  },\n  other_options: allDoctors\n    .filter((_, i) => i !== bestIndex)\n    .slice(0, 3)\n    .map(doc => ({\n      id: doc.id,\n      name: doc.name,\n      specialization: doc.specialization,\n      rating: doc.rating,\n      location: doc.location,\n      similarity_score: parseFloat((doc.similarity_score * 100).toFixed(1))\n    }))\n};\n\nreturn [{\n  json: {\n    success: true,\n    session_id: searchData.session_id,\n    type: 'doctor_match',\n    original_query: searchData.original_query,\n    card: doctorCard\n  }\n}];"
+      },
+      "id": "node-build-doctor-card",
+      "name": "Build Doctor Card",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3540,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE chat_sessions SET status = 'done' WHERE session_id = '{{ $json.session_id }}';\n\nINSERT INTO session_messages (session_id, role, content, turn_number, created_at)\nVALUES (\n  '{{ $json.session_id }}',\n  'bot',\n  'Doctor match found: {{ $json.card.best_match.name.replace(/'/g, \"''\") }} - {{ $json.card.best_match.specialization.replace(/'/g, \"''\") }}',\n  999,\n  NOW()\n);",
+        "options": {}
+      },
+      "id": "node-save-result",
+      "name": "Save Result to DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        3760,
+        540
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "YOUR_POSTGRES_CREDENTIAL_ID",
+          "name": "PostgreSQL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Format Question Response').item.json }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "node-respond-question",
+      "name": "Respond with Question",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        3100,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Build Doctor Card').item.json }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "node-respond-doctor",
+      "name": "Respond with Doctor Card",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        3980,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": false,\n  \"type\": \"error\",\n  \"message\": \"{{ $json.message || 'An error occurred. Please try again.' }}\"\n}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "node-respond-error",
+      "name": "Respond with Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        3980,
+        700
+      ]
+    }
+  ],
+  "connections": {
+    "webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Input": {
+      "main": [
+        [
+          {
+            "node": "Is New Session?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is New Session?": {
+      "main": [
+        [
+          {
+            "node": "Create Session in DB",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Load Existing Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Session in DB": {
+      "main": [
+        [
+          {
+            "node": "Merge Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Existing Session": {
+      "main": [
+        [
+          {
+            "node": "Merge Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Session Data": {
+      "main": [
+        [
+          {
+            "node": "Save User Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save User Message": {
+      "main": [
+        [
+          {
+            "node": "Session Flow Logic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Session Flow Logic": {
+      "main": [
+        [
+          {
+            "node": "Route: Search or Question?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route: Search or Question?": {
+      "main": [
+        [
+          {
+            "node": "Build Search Context",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Question Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Question Prompt": {
+      "main": [
+        [
+          {
+            "node": "Groq - Generate Question",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq - Generate Question": {
+      "main": [
+        [
+          {
+            "node": "Extract Question Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Question Text": {
+      "main": [
+        [
+          {
+            "node": "Save Question to DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Question to DB": {
+      "main": [
+        [
+          {
+            "node": "Format Question Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Question Response": {
+      "main": [
+        [
+          {
+            "node": "Respond with Question",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Search Context": {
+      "main": [
+        [
+          {
+            "node": "Update Status to Searching",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status to Searching": {
+      "main": [
+        [
+          {
+            "node": "Cohere - Generate Embedding",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cohere - Generate Embedding": {
+      "main": [
+        [
+          {
+            "node": "Extract Embedding Vector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Embedding Vector": {
+      "main": [
+        [
+          {
+            "node": "pgvector Semantic Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pgvector Semantic Search": {
+      "main": [
+        [
+          {
+            "node": "Process Search Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Search Results": {
+      "main": [
+        [
+          {
+            "node": "Groq - Rank & Select Doctor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq - Rank & Select Doctor": {
+      "main": [
+        [
+          {
+            "node": "Build Doctor Card",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Doctor Card": {
+      "main": [
+        [
+          {
+            "node": "Save Result to DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Result to DB": {
+      "main": [
+        [
+          {
+            "node": "Respond with Doctor Card",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-06-15T00:00:00.000Z",
+  "versionId": "1"
+}
