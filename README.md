@@ -185,13 +185,33 @@ The user journey proceeds as follows:
 
 ## 6. n8n Automation & RAG
 
-The automated matchmaking logic is driven by n8n. The flow is defined inside `doctor_rag_workflow.json` and consists of the following components:
-* **HTTP Webhook Node:** Listens for POST requests at `/webhook/doctor-chat`.
-* **PostgreSQL Nodes:** Create or retrieve active session records and write chat logs.
-* **Session Logic (JavaScript Code Node):** Implements heuristic checkpoints to determine if clarifying questions are needed or if triage is complete.
-* **Groq Chat Completion Nodes:** Generate context-aware clarifying questions or perform final ranking of pgvector doctor search results.
-* **Cohere Embeddings Node:** Converts the aggregated patient triage dialogue into a 1024-dimensional floating-point vector.
-* **pgvector Search Node:** Computes cosine distance against the database table using L2 operator `<=>`.
+The automated matchmaking logic is driven by n8n. The flow is defined inside `doctor_rag_workflow.json` and consists of the following 25 integrated execution nodes:
+
+1. **`webhook` (HTTP Webhook):** Entry point. Listens for incoming `POST` messages forwarded from the Express gateway on `/webhook/doctor-chat`.
+2. **`Parse Input` (JavaScript Code):** Extracts incoming variables, including the raw query string, active `session_id`, language context, and file upload state flags.
+3. **`Is New Session?` (If Condition):** Evaluates if a matching `session_id` exists. Routes to database initialization if missing, else resumes diagnostic loops.
+4. **`Create Session in DB` (PostgreSQL):** Inserts a new session record into the `chat_sessions` table for fresh users.
+5. **`Load Existing Session` (PostgreSQL):** Queries the database to retrieve historical message parameters and state flags for returning sessions.
+6. **`Merge Session Data` (JavaScript Code):** Normalizes and aggregates database variables and sets up n8n execution parameters.
+7. **`Save User Message` (PostgreSQL):** Logs the patient's incoming chat message in the `session_messages` historical table.
+8. **`Session Flow Logic` (JavaScript Code):** Evaluates dialogue progress, counts active conversational turns, tracks symptoms, and determines if the triage limit is met or if a semantic search is required.
+9. **`Route: Search or Question?` (Switch Route):** Branches execution flow. Directs control to semantic search query lines, or forks to clarifying question generators.
+10. **`Build Question Prompt` (JavaScript Code):** Aggregates the symptom profile, language context, and previous bot questions to construct the prompt payload for the generator.
+11. **`Groq - Generate Question` (Groq API):** Calls Groq's Llama-3.3-70b Chat Completion model to synthesize a contextually logical, conversational triage question.
+12. **`Extract Question Text` (JavaScript Code):** Parses the raw response text from the Groq API payload.
+13. **`Save Question to DB` (PostgreSQL):** Logs the new bot question under `chat_sessions` memories and saves the dialogue string to the history database.
+14. **`Format Question Response` (JavaScript Code):** Packages the question output with visual indicators, including progress card values and language badges.
+15. **`Build Search Context` (JavaScript Code):** Aggregates all patient query turns and clinical statements into a single dense summary block, optimized for semantic embedding.
+16. **`Update Status to Searching` (PostgreSQL):** Flags the session status as `searching` in the `chat_sessions` table.
+17. **`Cohere - Generate Embedding` (Cohere API):** Dispatches the dense summary string to Cohere's `embed-english-v3.0` API, yielding a 1024-dimensional floating-point vector.
+18. **`Extract Embedding Vector` (JavaScript Code):** Resolves the floating-point array from the Cohere response and serializes it for database lookup queries.
+19. **`pgvector Semantic Search` (PostgreSQL):** Runs L2 distance similarity math (`<=>`) on the `doctors` database table using the 1024-dimensional query vector, returning the top 5 matches.
+20. **`Process Search Results` (JavaScript Code):** Filters, cleans, and serializes the list of matching clinician records into a structured JSON string.
+21. **`Groq - Rank & Select Doctor` (Groq API):** Prompts Llama-3.3-70b with the parsed diagnostics summary and candidate profiles, selecting the single best practitioner match and constructing clinical reasoning metrics.
+22. **`Build Doctor Card` (JavaScript Code):** Packages the chosen clinician's details, likeness scores, location records, and AI reasoning parameters into a custom output card.
+23. **`Save Result to DB` (PostgreSQL):** Stores the final selection payload, updates the session status as `completed`, and records the response to historical message tables.
+24. **`Respond with Question` (HTTP Response):** Dispatches the clarifying question card directly back to the active user's webhook request stream.
+25. **`Respond with Doctor Card` (HTTP Response):** Dispatches the finalized doctor card match details and AI reasoning back to the user's chat screen.
 
 ---
 
