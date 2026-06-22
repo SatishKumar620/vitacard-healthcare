@@ -202,6 +202,7 @@ LIMIT 5;
 
 ## 7. Security Considerations
 
+* **Server-side JWT Authentication:** The platform enforces JSON Web Token (JWT) verification for patient and doctor dashboards. On successful authentication (`/api/auth/login` or `/api/auth/signup`), the server signs stateless tokens containing user IDs and roles using the HMAC SHA256 (`HS256`) algorithm and custom URL-safe base64 encoding. API routes like `/api/auth/me` and `/api/auth/update-profile` require verification via the `Authorization: Bearer <token>` header, restricting data modifications to the authenticated session owner.
 * **Decoupled API Key Architecture:** The codebase uses `process.env` lookups. Secrets are injected at container startup and excluded from git via `.gitignore`.
 * **SQL Injection Countermeasures:** All database queries within n8n workflows use parameterized variables (e.g., `'{{ $json.session_id }}'`), preventing SQL injection from user chat inputs.
 * **CORS and Routing Insulation:** The Express proxy isolates ports. External traffic has access only to port 7860. The database port (5432) and the n8n editor port (5678) are restricted to the local network loopback (`127.0.0.1`).
@@ -272,9 +273,9 @@ When the container starts:
 Because Hugging Face Spaces are stateless, restarts rebuild the container image. This clears the local database state.
 * **Future Scope:** Migrate the PostgreSQL container configuration to external managed database instances (e.g., Supabase or Neon DB) using SSL connections.
 
-### 9.2 Token-based Authentication
-The current system uses simulated login roles cached inside browser memory.
-* **Future Scope:** Integrate Firebase Auth or Auth0 to enforce JWT verification, secure API route headers, and enable true HIPAA-compliant patient-doctor EHR data separation.
+### 9.2 UI Localization, Voice Input, and Report Upload Controls
+The Language selection dropdown, Speech-to-Text (Voice) input, and client-side OCR Image upload buttons are temporarily commented out in the triage chat UI to streamline the core text-based diagnostic experience.
+* **Future Scope:** Re-enable and verify the local voice recorders and OCR parsers as configurable add-ons, allowing patients to upload lab diagnostics files and perform bilingual verbal consultations on-demand.
 
 ### 9.3 Payment Gateway Integration
 Bookings are currently logged without verification.

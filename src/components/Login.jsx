@@ -7,11 +7,11 @@ export default function Login() {
   const [role, setRole] = useState('patient');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    const res = loginUser(email, password, role);
+    const res = await loginUser(email, password, role);
     if (res.success) {
       window.location.hash = '#/dashboard';
     } else {
@@ -19,12 +19,12 @@ export default function Login() {
     }
   };
 
-  const handleQuickLogin = (demoRole) => {
+  const handleQuickLogin = async (demoRole) => {
     if (demoRole === 'patient') {
-      const res = loginUser('patient@vitacard.com', 'password', 'patient');
+      const res = await loginUser('patient@vitacard.com', 'password', 'patient');
       if (res.success) window.location.hash = '#/dashboard';
     } else {
-      const res = loginUser('doctor@vitacard.com', 'password', 'doctor');
+      const res = await loginUser('doctor@vitacard.com', 'password', 'doctor');
       if (res.success) window.location.hash = '#/dashboard';
     }
   };

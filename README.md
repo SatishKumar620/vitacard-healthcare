@@ -101,6 +101,7 @@ The automated matchmaking logic is driven by n8n. The flow is defined inside `do
 
 ## 7. Security Considerations
 
+* **Server-side JWT Authentication:** Stateless JSON Web Token authentication using Node's native `crypto` library (HMAC SHA256) is enforced for patient and doctor dashboards. API routes `/api/auth/me` and `/api/auth/update-profile` require authentication validation using the Bearer token headers, securing user profile fields.
 * **Key Encapsulation:** No active API credentials are saved in source files. Keys are loaded through runtime environments (`process.env.SARVAM_API_KEY`, `process.env.RESEND_API_KEY`, etc.) and injected via Docker.
 * **SQL Injection Mitigation:** n8n database nodes use parameterized SQL bindings to isolate user inputs from executable SQL queries.
 * **Stateless Testing Isolation:** Patient records, files, and local calendars are bound to client-side browser `localStorage`, preventing data leakage across active test sessions.
@@ -119,7 +120,7 @@ VitaCard is containerized for seamless hosting:
 ## 9. Limitations & Future Scope
 
 * **Persistent Database Infrastructure:** The database runs locally inside the Docker container and is reset during deployments. Migrating to a managed cloud database (e.g. Neon, Supabase) is the next phase.
-* **Production-grade Authentication:** Replace client-side LocalStorage roles with OAuth / JWT authentication (e.g., Firebase Authentication).
+* **UI Controls & Add-ons (Future Scope):** Triage language selector, Speech-to-Text mic input, and client-side report OCR uploads are temporarily commented out in the UI. These features are documented as modular plug-and-play add-ons for future versions.
 * **Payment Gateways:** Integrate Stripe or Razorpay to handle actual subscription billing and digital membership issuance.
 * **FHIR Standards Compliance:** Standardize clinical summaries using FHIR formatting to enable export to traditional medical databases.
 

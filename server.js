@@ -473,6 +473,219 @@ c.close()
   }
 });
 
+// ─── JWT Authentication Utilities & Endpoints ───
+const crypto = require('crypto');
+const USERS_FILE = path.join(__dirname, 'users.json');
+const JWT_SECRET = process.env.JWT_SECRET || 'vitacard-default-jwt-secret-key-2026';
+
+// Initialize default users if file doesn't exist
+if (!fs.existsSync(USERS_FILE)) {
+  const defaultUsers = [
+    {
+      id: 'user_pat_1',
+      email: 'patient@vitacard.com',
+      password: 'password',
+      role: 'patient',
+      name: 'Satish Kumar',
+      phone: '+91 98765 43210',
+      age: '28',
+      gender: 'Male',
+      conditions: 'Hypertension (Mild)',
+      allergies: 'Penicillin',
+      medications: 'Lisinopril 5mg',
+      pastReports: []
+    },
+    {
+      id: 'user_doc_1',
+      email: 'doctor@vitacard.com',
+      password: 'password',
+      role: 'doctor',
+      name: 'Dr. Nitesh Kumar Singh',
+      phone: '+91 91223 34455',
+      doctorId: 1
+    }
+  ];
+  fs.writeFileSync(USERS_FILE, JSON.stringify(defaultUsers, null, 2), 'utf8');
+}
+
+function base64url(buf) {
+  return buf.toString('base64')
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+}
+
+function base64urlDecode(str) {
+  str = str.replace(/-/g, '+').replace(/_/g, '/');
+  while (str.length % 4) {
+    str += '=';
+  }
+  return Buffer.from(str, 'base64').toString('utf8');
+}
+
+function signJwt(payload) {
+  const header = { alg: 'HS256', typ: 'JWT' };
+  const h64 = base64url(Buffer.from(JSON.stringify(header)));
+  const p64 = base64url(Buffer.from(JSON.stringify(payload)));
+  const signInput = h64 + '.' + p64;
+  const signature = crypto.createHmac('sha256', JWT_SECRET).update(signInput).digest();
+  const s64 = base64url(signature);
+  return h64 + '.' + p64 + '.' + s64;
+}
+
+function verifyJwt(token) {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    const h64 = parts[0];
+    const p64 = parts[1];
+    const s64 = parts[2];
+    const signInput = h64 + '.' + p64;
+    const signature = crypto.createHmac('sha256', JWT_SECRET).update(signInput).digest();
+    const expectedS64 = base64url(signature);
+    if (s64 !== expectedS64) return null;
+    return JSON.parse(base64urlDecode(p64));
+  } catch (e) {
+    return null;
+  }
+}
+
+function getUsers() {
+  try {
+    return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveUsers(users) {
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf8');
+}
+
+// 1. POST /api/auth/signup
+app.post('/api/auth/signup', (req, res) => {
+  const { email, password, role, name, phone, age, gender, specialization, clinic, address, city } = req.body;
+  if (!email || !password || !role || !name) {
+    return res.status(400).json({ error: 'All primary fields are required.' });
+  }
+
+  const users = getUsers();
+  const exists = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (exists) {
+    return res.status(400).json({ error: 'Email already registered.' });
+  }
+
+  const id = `user_${role}_${Date.now()}`;
+  const newUser = {
+    id,
+    email,
+    password,
+    role,
+    name,
+    phone: phone || '',
+    age: age || '',
+    gender: gender || '',
+    conditions: '',
+    allergies: '',
+    medications: '',
+    pastReports: []
+  };
+
+  if (role === 'doctor') {
+    newUser.doctorId = Date.now() % 10000;
+    newUser.specialization = specialization;
+    newUser.clinic = clinic;
+    newUser.address = address;
+    newUser.city = city;
+  }
+
+  users.push(newUser);
+  saveUsers(users);
+
+  const tokenPayload = { id, email, role, name };
+  const token = signJwt(tokenPayload);
+
+  const sessionUser = { ...newUser };
+  delete sessionUser.password;
+
+  res.json({ success: true, token, user: sessionUser });
+});
+
+// 2. POST /api/auth/login
+app.post('/api/auth/login', (req, res) => {
+  const { email, password, role } = req.body;
+  if (!email || !password || !role) {
+    return res.status(400).json({ error: 'Email, password, and role are required.' });
+  }
+
+  const users = getUsers();
+  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password && u.role === role);
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid email, password, or role.' });
+  }
+
+  const tokenPayload = { id: user.id, email: user.email, role: user.role, name: user.name };
+  const token = signJwt(tokenPayload);
+
+  const sessionUser = { ...user };
+  delete sessionUser.password;
+
+  res.json({ success: true, token, user: sessionUser });
+});
+
+// 3. GET /api/auth/me
+app.get('/api/auth/me', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decoded = verifyJwt(token);
+  if (!decoded) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+
+  const users = getUsers();
+  const user = users.find(u => u.id === decoded.id);
+  if (!user) {
+    return res.status(401).json({ error: 'User not found.' });
+  }
+
+  const sessionUser = { ...user };
+  delete sessionUser.password;
+
+  res.json({ success: true, user: sessionUser });
+});
+
+// 4. POST /api/auth/update-profile
+app.post('/api/auth/update-profile', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decoded = verifyJwt(token);
+  if (!decoded) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+
+  const users = getUsers();
+  const userIdx = users.findIndex(u => u.id === decoded.id);
+  if (userIdx === -1) {
+    return res.status(401).json({ error: 'User not found.' });
+  }
+
+  users[userIdx] = { ...users[userIdx], ...req.body };
+  saveUsers(users);
+
+  const sessionUser = { ...users[userIdx] };
+  delete sessionUser.password;
+
+  res.json({ success: true, user: sessionUser });
+});
+
 // ─── Resend Email Notification Endpoint ───
 app.post('/api/send-appointment-email', async (req, res) => {
   const {

@@ -20,7 +20,7 @@ export default function Signup() {
 
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -34,7 +34,7 @@ export default function Signup() {
       ...(role === 'doctor' && { specialization, clinic, address, city })
     };
 
-    const res = signupUser(signupDetails);
+    const res = await signupUser(signupDetails);
     if (res.success) {
       window.location.hash = '#/dashboard';
     } else {

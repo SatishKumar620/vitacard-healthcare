@@ -410,9 +410,9 @@ function PatientDashboard({ session, onLogout }) {
     }
   };
 
-  const handleProfileSave = (e) => {
+  const handleProfileSave = async (e) => {
     e.preventDefault();
-    const res = updatePatientProfile(session.id, {
+    const res = await updatePatientProfile(session.id, {
       conditions,
       allergies,
       medications,
@@ -424,7 +424,7 @@ function PatientDashboard({ session, onLogout }) {
     }
   };
 
-  const handleAddReport = (e) => {
+  const handleAddReport = async (e) => {
     e.preventDefault();
     if (!repHospital || !repDoctor || !repDate || !repTime || !repNotes) {
       alert("Please fill out all report fields.");
@@ -443,7 +443,7 @@ function PatientDashboard({ session, onLogout }) {
     const updatedReports = [...pastReports, newReport];
     setPastReports(updatedReports);
 
-    updatePatientProfile(session.id, {
+    await updatePatientProfile(session.id, {
       conditions,
       allergies,
       medications,
@@ -458,11 +458,11 @@ function PatientDashboard({ session, onLogout }) {
     setRepActive(false);
   };
 
-  const handleRemoveReport = (repId) => {
+  const handleRemoveReport = async (repId) => {
     if (window.confirm("Remove this report from history?")) {
       const updatedReports = pastReports.filter(r => r.id !== repId);
       setPastReports(updatedReports);
-      updatePatientProfile(session.id, {
+      await updatePatientProfile(session.id, {
         conditions,
         allergies,
         medications,
@@ -1289,11 +1289,11 @@ function DoctorDashboard({ session, onLogout }) {
     return subscribeToState(loadData);
   }, [doctorId, session.id]);
 
-  const handleProfileSave = (e) => {
+  const handleProfileSave = async (e) => {
     e.preventDefault();
     if (!doctorId) return;
 
-    const res = updateDoctorProfile(doctorId, {
+    const res = await updateDoctorProfile(doctorId, {
       name,
       phone,
       specialization,

@@ -195,87 +195,83 @@ export function getCurrentSession() {
   return getStorageItem('vitacard_session', null);
 }
 
-export function loginUser(email, password, role) {
-  const users = getStorageItem('vitacard_users', []);
-  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password && u.role === role);
-  if (user) {
-    const session = { ...user };
-    delete session.password; // Don't keep password in active session
-    setStorageItem('vitacard_session', session);
-    emitStateChange();
-    return { success: true, user: session };
+export async function loginUser(email, password, role) {
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password, role })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      localStorage.setItem('vitacard_jwt_token', data.token);
+      setStorageItem('vitacard_session', data.user);
+      emitStateChange();
+      return { success: true, user: data.user };
+    } else {
+      return { success: false, error: data.error || 'Invalid credentials' };
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    return { success: false, error: 'Connection failed. Please try again.' };
   }
-  return { success: false, error: 'Invalid email, password, or role.' };
 }
 
-export function signupUser(details) {
-  const users = getStorageItem('vitacard_users', []);
-  const emailExists = users.some(u => u.email.toLowerCase() === details.email.toLowerCase());
-  
-  if (emailExists) {
-    return { success: false, error: 'Email already registered.' };
+export async function signupUser(details) {
+  try {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(details)
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      localStorage.setItem('vitacard_jwt_token', data.token);
+      setStorageItem('vitacard_session', data.user);
+      
+      // Also register as doctor in the local doctors list if doctor role
+      if (details.role === 'doctor') {
+        const doctors = getStorageItem('vitacard_doctors', []);
+        const newDoctor = {
+          s_no: data.user.doctorId,
+          name: details.name.startsWith('Dr. ') ? details.name : `Dr. ${details.name}`,
+          specialization: details.specialization || 'General Physician',
+          clinic: details.clinic || 'VitaCard Clinic',
+          address: details.address || 'Central Street',
+          city: details.city || 'Jamshedpur',
+          phone: details.phone || 'N/A',
+          source: 'vitacard.com',
+          bio: details.bio || 'Accredited medical practitioner.',
+          experience_years: details.experience_years || 5,
+          rating: '5.0',
+          fee_range: details.fee_range || '₹300 - ₹500',
+          languages: details.languages || ['English', 'Hindi'],
+          education: details.education || 'MBBS',
+          slots: ['09:00 AM', '10:30 AM', '11:45 AM', '02:00 PM', '03:30 PM', '05:00 PM']
+        };
+        doctors.push(newDoctor);
+        setStorageItem('vitacard_doctors', doctors);
+      }
+      
+      addNotification(data.user.id, `Welcome to VitaCard, ${details.name}! Complete your details to start.`);
+      emitStateChange();
+      return { success: true, user: data.user };
+    } else {
+      return { success: false, error: data.error || 'Signup failed.' };
+    }
+  } catch (error) {
+    console.error('Signup error:', error);
+    return { success: false, error: 'Connection failed. Please try again.' };
   }
-
-  const newUserId = `user_${details.role}_${Date.now()}`;
-  let doctorId = null;
-
-  if (details.role === 'doctor') {
-    const doctors = getStorageItem('vitacard_doctors', []);
-    const newDocId = doctors.length > 0 ? Math.max(...doctors.map(d => d.s_no)) + 1 : 1;
-    
-    const newDoctor = {
-      s_no: newDocId,
-      name: details.name.startsWith('Dr. ') ? details.name : `Dr. ${details.name}`,
-      specialization: details.specialization || 'General Physician',
-      clinic: details.clinic || 'VitaCard Clinic',
-      address: details.address || 'Central Street',
-      city: details.city || 'Jamshedpur',
-      phone: details.phone || 'N/A',
-      source: 'vitacard.com',
-      bio: details.bio || 'Accredited medical practitioner.',
-      experience_years: details.experience_years || 5,
-      rating: '5.0',
-      fee_range: details.fee_range || '₹300 - ₹500',
-      languages: details.languages || ['English', 'Hindi'],
-      education: details.education || 'MBBS',
-      slots: ['09:00 AM', '10:30 AM', '11:45 AM', '02:00 PM', '03:30 PM', '05:00 PM']
-    };
-    
-    doctors.push(newDoctor);
-    setStorageItem('vitacard_doctors', doctors);
-    doctorId = newDocId;
-  }
-
-  const newUser = {
-    id: newUserId,
-    email: details.email,
-    password: details.password,
-    role: details.role,
-    name: details.name,
-    phone: details.phone,
-    age: details.age || '',
-    gender: details.gender || '',
-    conditions: '',
-    allergies: '',
-    medications: '',
-    pastReports: [],
-    ...(doctorId && { doctorId })
-  };
-
-  users.push(newUser);
-  setStorageItem('vitacard_users', users);
-
-  const session = { ...newUser };
-  delete session.password;
-  setStorageItem('vitacard_session', session);
-
-  addNotification(newUserId, `Welcome to VitaCard, ${details.name}! Complete your details to start.`);
-  emitStateChange();
-  return { success: true, user: session };
 }
 
 export function logoutUser() {
   localStorage.removeItem('vitacard_session');
+  localStorage.removeItem('vitacard_jwt_token');
   emitStateChange();
 }
 
@@ -288,38 +284,80 @@ export function getDoctorById(id) {
   return doctors.find(d => d.s_no === parseInt(id, 10));
 }
 
-export function updateDoctorProfile(doctorId, updatedFields) {
-  const doctors = getStorageItem('vitacard_doctors', []);
-  const docIndex = doctors.findIndex(d => d.s_no === parseInt(doctorId, 10));
-  
-  if (docIndex !== -1) {
-    doctors[docIndex] = { ...doctors[docIndex], ...updatedFields };
-    setStorageItem('vitacard_doctors', doctors);
-    emitStateChange();
-    return { success: true, doctor: doctors[docIndex] };
-  }
-  return { success: false, error: 'Doctor profile not found.' };
-}
-
-export function updatePatientProfile(patientId, profileData) {
-  const users = getStorageItem('vitacard_users', []);
-  const userIdx = users.findIndex(u => u.id === patientId && u.role === 'patient');
-  
-  if (userIdx !== -1) {
-    users[userIdx] = { ...users[userIdx], ...profileData };
-    setStorageItem('vitacard_users', users);
+export async function updateDoctorProfile(doctorId, updatedFields) {
+  try {
+    const token = localStorage.getItem('vitacard_jwt_token');
+    const res = await fetch('/api/auth/update-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(updatedFields)
+    });
+    const data = await res.json();
     
-    // Sync session
-    const session = getCurrentSession();
-    if (session && session.id === patientId) {
-      const updatedSession = { ...session, ...profileData };
-      setStorageItem('vitacard_session', updatedSession);
+    // Always sync local storage doctor list
+    const doctors = getStorageItem('vitacard_doctors', []);
+    const docIndex = doctors.findIndex(d => d.s_no === parseInt(doctorId, 10));
+    if (docIndex !== -1) {
+      doctors[docIndex] = { ...doctors[docIndex], ...updatedFields };
+      setStorageItem('vitacard_doctors', doctors);
     }
     
-    emitStateChange();
-    return { success: true, user: users[userIdx] };
+    if (res.ok && data.success) {
+      setStorageItem('vitacard_session', data.user);
+      emitStateChange();
+      return { success: true, doctor: doctors[docIndex] };
+    } else {
+      emitStateChange();
+      return { success: true, doctor: doctors[docIndex] };
+    }
+  } catch (error) {
+    console.error('Update doctor profile error:', error);
+    const doctors = getStorageItem('vitacard_doctors', []);
+    const docIndex = doctors.findIndex(d => d.s_no === parseInt(doctorId, 10));
+    if (docIndex !== -1) {
+      doctors[docIndex] = { ...doctors[docIndex], ...updatedFields };
+      setStorageItem('vitacard_doctors', doctors);
+      emitStateChange();
+      return { success: true, doctor: doctors[docIndex] };
+    }
+    return { success: false, error: 'Doctor profile not found.' };
   }
-  return { success: false, error: 'Patient profile not found.' };
+}
+
+export async function updatePatientProfile(patientId, profileData) {
+  try {
+    const token = localStorage.getItem('vitacard_jwt_token');
+    const res = await fetch('/api/auth/update-profile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(profileData)
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setStorageItem('vitacard_session', data.user);
+      
+      const users = getStorageItem('vitacard_users', []);
+      const userIdx = users.findIndex(u => u.id === patientId && u.role === 'patient');
+      if (userIdx !== -1) {
+        users[userIdx] = { ...users[userIdx], ...profileData };
+        setStorageItem('vitacard_users', users);
+      }
+      
+      emitStateChange();
+      return { success: true, user: data.user };
+    } else {
+      return { success: false, error: data.error || 'Failed to update profile' };
+    }
+  } catch (error) {
+    console.error('Update patient profile error:', error);
+    return { success: false, error: 'Connection failed. Please try again.' };
+  }
 }
 
 export function getPatientById(id) {
