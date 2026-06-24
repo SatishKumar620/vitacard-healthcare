@@ -371,9 +371,20 @@ export function getAppointments() {
 
 export function addAppointment(appointmentData) {
   const appointments = getStorageItem('vitacard_appointments', []);
+  const mode = appointmentData.mode || 'offline';
+  const id = `apt_${Date.now()}`;
+  let jitsiLink = null;
+  
+  if (mode === 'online') {
+    const cleanDoc = appointmentData.doctorName ? appointmentData.doctorName.replace(/[^a-zA-Z0-9]/g, '') : 'Doctor';
+    jitsiLink = `https://meet.jit.si/VitaCard-${cleanDoc}-${id.replace('apt_', '')}`;
+  }
+
   const newApt = {
-    id: `apt_${Date.now()}`,
+    id,
     status: 'scheduled',
+    mode,
+    jitsiLink,
     ...appointmentData
   };
   
@@ -428,7 +439,9 @@ export function addAppointment(appointmentData) {
       address: newApt.address,
       date: newApt.date,
       time: newApt.time,
-      notes: newApt.notes
+      notes: newApt.notes,
+      mode: newApt.mode,
+      jitsiLink: newApt.jitsiLink
     })
   })
   .then(res => res.json())
@@ -491,7 +504,9 @@ export function rescheduleAppointment(aptId, newDate, newTime) {
         time: newTime,
         oldDate: oldDate,
         oldTime: oldTime,
-        notes: apt.notes || ''
+        notes: apt.notes || '',
+        mode: apt.mode || 'offline',
+        jitsiLink: apt.jitsiLink || null
       })
     })
     .then(res => res.json())
@@ -546,7 +561,9 @@ export function cancelAppointment(aptId) {
         address: apt.address || '',
         date: apt.date,
         time: apt.time,
-        notes: apt.notes || ''
+        notes: apt.notes || '',
+        mode: apt.mode || 'offline',
+        jitsiLink: apt.jitsiLink || null
       })
     })
     .then(res => res.json())

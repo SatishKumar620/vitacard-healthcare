@@ -174,11 +174,14 @@ The Express gateway exposes the following REST endpoints to drive user authentic
 5. **`POST /api/send-appointment-email`**
    - **Purpose:** Triggers appointment email notifications for bookings, cancellations, or rescheduling.
    - **Behavior:** Reads clinical calendar details, action type (`book`, `cancel`, `reschedule`), old dates/times (for reschedule tracking), queries the Resend API, and dispatches dynamic HTML formatting to both patients and doctors. Falls back to a developer Resend API key (`re_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL`) or local logging if no API keys are supplied.
-6. **`POST /api/audio-to-text`**
+6. **`POST /api/send-appointment-reminder`**
+   - **Purpose:** Dispatches manual or automated email reminders for scheduled appointments.
+   - **Behavior:** Accepts appointment data, determines consultation mode (offline vs. online), formats the HTML template (attaching the Jitsi Meet link if online), and dispatches it to both patient and doctor emails using Resend.
+7. **`POST /api/audio-to-text`**
    - **Purpose:** Gateway route forwarding client voice bytes to Sarvam AI audio transcoders for transcription.
-7. **`POST /webhook/doctor-chat`**
+8. **`POST /webhook/doctor-chat`**
    - **Purpose:** Relays active patient text queries to internal n8n triage workflows on port 5678.
-8. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`**
+9. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`**
    - **Purpose:** Proxies administration interfaces and active webhook endpoints directly to n8n, preventing port exposure.
 
 ---

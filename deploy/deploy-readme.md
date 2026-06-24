@@ -148,9 +148,10 @@ The Express gateway exposes the following REST endpoints to drive user authentic
 3. **`GET /api/auth/me`** - Validates the request Bearer header token and resolves active user credentials.
 4. **`POST /api/auth/update-profile`** - Validates user session, merges submitted profile edits with local database records, and updates the state.
 5. **`POST /api/send-appointment-email`** - Fires Resend HTML template dispatchers to both patient and doctor schedules for booking, cancellation, or rescheduling actions (with developer fallback API key `re_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL`).
-6. **`POST /api/audio-to-text`** - Gateway transcoder route forwarding audio queries to Sarvam AI.
-7. **`POST /webhook/doctor-chat`** - Relays text messages to the internal n8n service on port 5678.
-8. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`** - Proxies administration interfaces and active webhook endpoints directly to n8n.
+6. **`POST /api/send-appointment-reminder`** - Sends manual or automated email reminders with Jitsi Meet links if scheduled online.
+7. **`POST /api/audio-to-text`** - Gateway transcoder route forwarding audio queries to Sarvam AI.
+8. **`POST /webhook/doctor-chat`** - Relays text messages to the internal n8n service on port 5678.
+9. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`** - Proxies administration interfaces and active webhook endpoints directly to n8n.
 
 ---
 

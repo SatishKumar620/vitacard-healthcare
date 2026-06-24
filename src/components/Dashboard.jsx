@@ -349,6 +349,7 @@ function PatientDashboard({ session, onLogout }) {
   const [allergies, setAllergies] = useState('');
   const [medications, setMedications] = useState('');
   const [pastReports, setPastReports] = useState([]);
+  const [enableChatHistory, setEnableChatHistory] = useState(false);
   
   // New report inputs
   const [repActive, setRepActive] = useState(false);
@@ -383,6 +384,7 @@ function PatientDashboard({ session, onLogout }) {
       setAllergies(pProfile.allergies || '');
       setMedications(pProfile.medications || '');
       setPastReports(pProfile.pastReports || []);
+      setEnableChatHistory(pProfile.enableChatHistory || false);
     }
   };
 
@@ -410,13 +412,60 @@ function PatientDashboard({ session, onLogout }) {
     }
   };
 
+  const handleSendReminder = async (apt) => {
+    try {
+      const users = JSON.parse(localStorage.getItem('vitacard_users') || '[]');
+      const doctorUser = users.find(u => u.role === 'doctor' && u.doctorId === parseInt(apt.doctorId, 10));
+      const patientUser = users.find(u => u.id === apt.patientId);
+      
+      const patientEmail = (patientUser && patientUser.email) || 'patient@vitacard.com';
+      const doctorEmail = (doctorUser && doctorUser.email) || `${apt.doctorName.toLowerCase().replace(/[^a-z0-9]/g, '')}@vitacard.com`;
+
+      const response = await fetch('/api/send-appointment-reminder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          appointmentId: apt.id,
+          patientName: apt.patientName,
+          patientEmail: patientEmail,
+          patientPhone: apt.patientPhone,
+          doctorName: apt.doctorName,
+          doctorEmail: doctorEmail,
+          specialization: apt.specialization || '',
+          clinicName: apt.clinicName || '',
+          address: apt.address || '',
+          date: apt.date,
+          time: apt.time,
+          mode: apt.mode || 'offline',
+          jitsiLink: apt.jitsiLink || null,
+          notes: apt.notes || ''
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert("✉️ Appointment reminder email successfully sent to both Patient and Doctor!");
+      } else {
+        alert("❌ Failed to send reminder: " + (data.error || "Unknown error"));
+      }
+    } catch (e) {
+      console.error(e);
+      alert("❌ Connection error while sending email reminder.");
+    }
+  };
+
   const handleProfileSave = async (e) => {
     e.preventDefault();
+    if (!enableChatHistory) {
+      localStorage.removeItem(`vitacard_chat_history_${session.id}`);
+    }
     const res = await updatePatientProfile(session.id, {
       conditions,
       allergies,
       medications,
-      pastReports
+      pastReports,
+      enableChatHistory
     });
     if (res.success) {
       setProfileSuccess(true);
@@ -727,6 +776,32 @@ function PatientDashboard({ session, onLogout }) {
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                             <span>{apt.time}</span>
                           </div>
+                          <div className="apt-detail-row">
+                            <span style={{ fontSize: '0.74rem', padding: '2px 6px', borderRadius: '4px', background: apt.mode === 'online' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', color: apt.mode === 'online' ? '#3B82F6' : '#10B981', fontWeight: 'bold' }}>
+                              {apt.mode === 'online' ? '🎥 Online Video' : '🏥 In-Person Clinic'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {apt.mode === 'online' && apt.status === 'scheduled' && apt.jitsiLink && (
+                          <div className="apt-jitsi-row" style={{ marginTop: '10px', background: 'rgba(59, 130, 246, 0.08)', padding: '8px 12px', borderRadius: '6px', border: '1px solid rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                              <span style={{ fontSize: '0.78rem', color: '#e2e8f0' }}>Jitsi Call Active</span>
+                            </div>
+                            <a href={apt.jitsiLink} target="_blank" rel="noopener noreferrer" className="btn-apt-primary" style={{ fontSize: '0.72rem', padding: '3px 8px', textDecoration: 'none', background: '#3B82F6', borderRadius: '4px', fontWeight: 'bold' }}>Join</a>
+                          </div>
+                        )}
+
+                        <div className="apt-card-actions" style={{ marginTop: '10px', display: 'flex', gap: '8px' }}>
+                          <button 
+                            type="button"
+                            className="btn-apt-warning"
+                            style={{ flex: 1, padding: '5px 10px', fontSize: '0.78rem', borderRadius: '6px', background: 'rgba(245, 158, 11, 0.1)', color: '#F59E0B', border: '1px solid rgba(245, 158, 11, 0.2)', fontWeight: '600', cursor: 'pointer' }}
+                            onClick={() => handleSendReminder(apt)}
+                          >
+                            🔔 Remind Email
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -898,7 +973,22 @@ function PatientDashboard({ session, onLogout }) {
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                           <span>{apt.time}</span>
                         </div>
+                        <div className="apt-detail-row">
+                          <span style={{ fontSize: '0.74rem', padding: '2px 6px', borderRadius: '4px', background: apt.mode === 'online' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', color: apt.mode === 'online' ? '#3B82F6' : '#10B981', fontWeight: 'bold' }}>
+                            {apt.mode === 'online' ? '🎥 Online Video' : '🏥 In-Person Clinic'}
+                          </span>
+                        </div>
                       </div>
+
+                      {apt.mode === 'online' && apt.status === 'scheduled' && apt.jitsiLink && (
+                        <div className="apt-jitsi-row" style={{ margin: '10px 16px', background: 'rgba(59, 130, 246, 0.08)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            <span style={{ fontSize: '0.78rem', color: '#e2e8f0' }}>Jitsi Call Active</span>
+                          </div>
+                          <a href={apt.jitsiLink} target="_blank" rel="noopener noreferrer" className="btn-apt-primary" style={{ fontSize: '0.72rem', padding: '3px 8px', textDecoration: 'none', background: '#3B82F6', borderRadius: '4px', fontWeight: 'bold' }}>Join call</a>
+                        </div>
+                      )}
 
                       {apt.notes && <p className="apt-card-notes">"{apt.notes}"</p>}
 
@@ -909,6 +999,13 @@ function PatientDashboard({ session, onLogout }) {
                             onClick={() => handleCancel(apt.id)}
                           >
                             Cancel
+                          </button>
+                          <button 
+                            className="btn-apt-warning"
+                            style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#F59E0B', border: '1px solid rgba(245, 158, 11, 0.2)', fontWeight: '600' }}
+                            onClick={() => handleSendReminder(apt)}
+                          >
+                            🔔 Remind
                           </button>
                           <button 
                             className="btn-apt-primary"
@@ -984,11 +1081,24 @@ function PatientDashboard({ session, onLogout }) {
                         <div key={apt.id} className="apt-card-glass" style={{ padding: '16px' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <h4>{apt.doctorName}</h4>
-                            <span style={{ color: 'var(--g-emerald)', fontWeight: 700 }}>{apt.time}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', background: apt.mode === 'online' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', color: apt.mode === 'online' ? '#3B82F6' : '#10B981', fontWeight: 'bold' }}>
+                                {apt.mode === 'online' ? 'Online' : 'In-Person'}
+                              </span>
+                              <span style={{ color: 'var(--g-emerald)', fontWeight: 700 }}>{apt.time}</span>
+                            </div>
                           </div>
                           <p style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                             {apt.clinicName} • {apt.specialization}
                           </p>
+                          {apt.mode === 'online' && apt.status === 'scheduled' && apt.jitsiLink && (
+                            <div style={{ marginTop: '8px', display: 'flex', justifyContent: 'flex-start' }}>
+                              <a href={apt.jitsiLink} target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                Join Video Call
+                              </a>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -1175,6 +1285,44 @@ function PatientDashboard({ session, onLogout }) {
                 )}
               </div>
 
+              <div className="editor-section-title" style={{ marginTop: '24px' }}>B. Account & Interface Preferences</div>
+              <div className="profile-settings-preferences" style={{ marginBottom: '20px', padding: '15px', background: 'rgba(255, 255, 255, 0.03)', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <h5 style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-main)' }}>Enable Chatbot Chat History</h5>
+                    <p style={{ margin: '4px 0 0 0', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                      If enabled, your conversations with the VitaCard AI triage chatbot will be securely saved in this browser.
+                    </p>
+                  </div>
+                  <label className="switch-toggle" style={{ position: 'relative', display: 'inline-block', width: '46px', height: '24px', cursor: 'pointer' }}>
+                    <input 
+                      type="checkbox" 
+                      checked={enableChatHistory} 
+                      onChange={(e) => setEnableChatHistory(e.target.checked)} 
+                      style={{ display: 'none' }}
+                    />
+                    <span className="slider-toggle-round" style={{ 
+                      position: 'absolute', 
+                      top: 0, left: 0, right: 0, bottom: 0, 
+                      backgroundColor: enableChatHistory ? 'var(--g-emerald)' : '#4a5568', 
+                      transition: '0.3s', 
+                      borderRadius: '34px'
+                    }}>
+                      <span className="slider-toggle-thumb" style={{
+                        position: 'absolute',
+                        height: '18px',
+                        width: '18px',
+                        left: enableChatHistory ? '24px' : '4px',
+                        bottom: '3px',
+                        backgroundColor: 'white',
+                        transition: '0.3s',
+                        borderRadius: '50%'
+                      }}></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
               <button type="submit" className="btn-profile-save">
                 Save Profile Clinical Details
               </button>
@@ -1288,6 +1436,49 @@ function DoctorDashboard({ session, onLogout }) {
     loadData();
     return subscribeToState(loadData);
   }, [doctorId, session.id]);
+
+  const handleSendReminder = async (apt) => {
+    try {
+      const users = JSON.parse(localStorage.getItem('vitacard_users') || '[]');
+      const doctorUser = users.find(u => u.role === 'doctor' && u.doctorId === parseInt(apt.doctorId, 10));
+      const patientUser = users.find(u => u.id === apt.patientId);
+      
+      const patientEmail = (patientUser && patientUser.email) || 'patient@vitacard.com';
+      const doctorEmail = (doctorUser && doctorUser.email) || `${apt.doctorName.toLowerCase().replace(/[^a-z0-9]/g, '')}@vitacard.com`;
+
+      const response = await fetch('/api/send-appointment-reminder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          appointmentId: apt.id,
+          patientName: apt.patientName,
+          patientEmail: patientEmail,
+          patientPhone: apt.patientPhone,
+          doctorName: apt.doctorName,
+          doctorEmail: doctorEmail,
+          specialization: apt.specialization || '',
+          clinicName: apt.clinicName || '',
+          address: apt.address || '',
+          date: apt.date,
+          time: apt.time,
+          mode: apt.mode || 'offline',
+          jitsiLink: apt.jitsiLink || null,
+          notes: apt.notes || ''
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        alert("✉️ Appointment reminder email successfully sent to both Patient and Doctor!");
+      } else {
+        alert("❌ Failed to send reminder: " + (data.error || "Unknown error"));
+      }
+    } catch (e) {
+      console.error(e);
+      alert("❌ Connection error while sending email reminder.");
+    }
+  };
 
   const handleProfileSave = async (e) => {
     e.preventDefault();
@@ -1719,7 +1910,22 @@ function DoctorDashboard({ session, onLogout }) {
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                           <span>{apt.time}</span>
                         </div>
+                        <div className="apt-detail-row">
+                          <span style={{ fontSize: '0.74rem', padding: '2px 6px', borderRadius: '4px', background: apt.mode === 'online' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', color: apt.mode === 'online' ? '#3B82F6' : '#10B981', fontWeight: 'bold' }}>
+                            {apt.mode === 'online' ? '🎥 Online Video' : '🏥 In-Person Clinic'}
+                          </span>
+                        </div>
                       </div>
+
+                      {apt.mode === 'online' && apt.status === 'scheduled' && apt.jitsiLink && (
+                        <div className="apt-jitsi-row" style={{ margin: '10px 16px', background: 'rgba(59, 130, 246, 0.08)', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            <span style={{ fontSize: '0.78rem', color: '#e2e8f0' }}>Jitsi Call Active</span>
+                          </div>
+                          <a href={apt.jitsiLink} target="_blank" rel="noopener noreferrer" className="btn-apt-primary" style={{ fontSize: '0.72rem', padding: '3px 8px', textDecoration: 'none', background: '#3B82F6', borderRadius: '4px', fontWeight: 'bold' }}>Join call</a>
+                        </div>
+                      )}
 
                       {apt.notes && <p className="apt-card-notes">"{apt.notes}"</p>}
 
@@ -1730,6 +1936,15 @@ function DoctorDashboard({ session, onLogout }) {
                         >
                           View Patient Profile & Details
                         </button>
+                        {apt.status === 'scheduled' && (
+                          <button 
+                            className="btn-apt-warning"
+                            style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#F59E0B', border: '1px solid rgba(245, 158, 11, 0.2)', fontWeight: '600' }}
+                            onClick={() => handleSendReminder(apt)}
+                          >
+                            🔔 Remind
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -1755,8 +1970,21 @@ function DoctorDashboard({ session, onLogout }) {
                         <div key={apt.id} className="apt-card-glass" style={{ padding: '16px' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <h4 style={{ fontSize: '0.92rem' }}>{apt.patientName}</h4>
-                            <span style={{ fontSize: '0.78rem', color: 'var(--g-emerald)', fontWeight: 700 }}>{apt.time}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span style={{ fontSize: '0.7rem', padding: '2px 6px', borderRadius: '4px', background: apt.mode === 'online' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)', color: apt.mode === 'online' ? '#3B82F6' : '#10B981', fontWeight: 'bold' }}>
+                                {apt.mode === 'online' ? 'Online' : 'In-Person'}
+                              </span>
+                              <span style={{ fontSize: '0.78rem', color: 'var(--g-emerald)', fontWeight: 700 }}>{apt.time}</span>
+                            </div>
                           </div>
+                          {apt.mode === 'online' && apt.status === 'scheduled' && apt.jitsiLink && (
+                            <div style={{ marginTop: '8px', display: 'flex', justifyContent: 'flex-start' }}>
+                              <a href={apt.jitsiLink} target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                                Join Video Call
+                              </a>
+                            </div>
+                          )}
                           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
                             <button 
                               className="btn-apt-secondary"

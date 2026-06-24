@@ -5,6 +5,7 @@ export default function DoctorDetails({ doctorId }) {
   const [doctor, setDoctor] = useState(null);
   const [bookingDate, setBookingDate] = useState('');
   const [bookingTime, setBookingTime] = useState('');
+  const [bookingMode, setBookingMode] = useState('offline');
   const [bookingSuccess, setBookingSuccess] = useState(false);
   
   const session = getCurrentSession();
@@ -53,6 +54,7 @@ export default function DoctorDetails({ doctorId }) {
       address: `${doctor.address}, ${doctor.city}`,
       date: bookingDate,
       time: bookingTime,
+      mode: bookingMode,
       notes: session ? 'Booked via patient portal session.' : 'Guest user booking.'
     });
 
@@ -61,6 +63,7 @@ export default function DoctorDetails({ doctorId }) {
       // Clear fields
       setBookingDate('');
       setBookingTime('');
+      setBookingMode('offline');
       if (!session) {
         setPatientName('');
         setPatientPhone('');
@@ -241,6 +244,20 @@ export default function DoctorDetails({ doctorId }) {
                     onChange={(e) => setPatientPhone(e.target.value)}
                     required
                   />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="bookingMode">Consultation Mode</label>
+                  <select 
+                    id="bookingMode"
+                    className="form-input"
+                    value={bookingMode}
+                    onChange={(e) => setBookingMode(e.target.value)}
+                    required
+                  >
+                    <option value="offline">In-Person Clinic Visit (Offline)</option>
+                    <option value="online">Video Consultation (Online)</option>
+                  </select>
                 </div>
 
                 <div className="form-group-row">

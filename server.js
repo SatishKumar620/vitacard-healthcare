@@ -703,10 +703,16 @@ app.post('/api/send-appointment-email', async (req, res) => {
     time,
     oldDate,
     oldTime,
-    notes
+    notes,
+    mode,
+    jitsiLink
   } = req.body;
 
   const resendApiKey = process.env.RESEND_API_KEY || 're_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL';
+  const isOnline = mode === 'online';
+  const locationText = isOnline 
+    ? `Online Video Consultation (via Jitsi Meet)` 
+    : `${clinicName} (${address})`;
 
   let patientSubject = `Appointment Confirmed: ${doctorName} - VitaCard Healthcare`;
   let patientHtml = '';
@@ -728,7 +734,8 @@ app.post('/api/send-appointment-email', async (req, res) => {
           <h3 style="margin-top: 0; color: #2d3748;">Cancelled Appointment Summary</h3>
           <p><strong>Doctor:</strong> ${doctorName} (${specialization})</p>
           <p><strong>Scheduled Slot:</strong> ${date} at ${time}</p>
-          <p><strong>Location:</strong> ${clinicName}</p>
+          <p><strong>Type:</strong> ${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</p>
+          <p><strong>Location:</strong> ${locationText}</p>
         </div>
 
         <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">If you cancelled this by mistake or wish to schedule a new consultation, please log in to your patient dashboard.</p>
@@ -753,6 +760,7 @@ app.post('/api/send-appointment-email', async (req, res) => {
           <h3 style="margin-top: 0; color: #2d3748;">Cancelled Slot Info</h3>
           <p><strong>Patient:</strong> ${patientName}</p>
           <p><strong>Slot Time:</strong> ${date} at ${time}</p>
+          <p><strong>Type:</strong> ${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</p>
         </div>
 
         <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">This slot has been released back to your active calendar queue.</p>
@@ -778,9 +786,16 @@ app.post('/api/send-appointment-email', async (req, res) => {
           <p><strong>Doctor:</strong> ${doctorName} (${specialization})</p>
           <p><strong>New Date:</strong> ${date}</p>
           <p><strong>New Time:</strong> ${time}</p>
-          <p><strong>Location:</strong> ${clinicName}</p>
+          <p><strong>Type:</strong> ${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</p>
+          <p><strong>Location/Call Link:</strong> ${isOnline && jitsiLink ? `<a href="${jitsiLink}">${jitsiLink}</a>` : locationText}</p>
           ${oldDate ? `<p style="color: #718096; font-size: 0.9em; margin-top: 10px;"><em>Previously scheduled: ${oldDate} at ${oldTime}</em></p>` : ''}
         </div>
+
+        ${isOnline && jitsiLink ? `
+        <div style="text-align: center; margin: 20px 0;">
+          <a href="${jitsiLink}" style="background-color: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Join Video Call</a>
+        </div>
+        ` : ''}
 
         <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please update your calendar. If you need to make further adjustments, log in to your patient dashboard.</p>
         
@@ -805,8 +820,16 @@ app.post('/api/send-appointment-email', async (req, res) => {
           <p><strong>Patient:</strong> ${patientName}</p>
           <p><strong>New Date:</strong> ${date}</p>
           <p><strong>New Time:</strong> ${time}</p>
+          <p><strong>Type:</strong> ${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</p>
+          <p><strong>Location/Call Link:</strong> ${isOnline && jitsiLink ? `<a href="${jitsiLink}">${jitsiLink}</a>` : locationText}</p>
           ${oldDate ? `<p style="color: #718096; font-size: 0.9em; margin-top: 10px;"><em>Previously scheduled: ${oldDate} at ${oldTime}</em></p>` : ''}
         </div>
+
+        ${isOnline && jitsiLink ? `
+        <div style="text-align: center; margin: 20px 0;">
+          <a href="${jitsiLink}" style="background-color: #3B82F6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Join Video Call</a>
+        </div>
+        ` : ''}
 
         <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Your scheduling database has been updated with these parameters.</p>
         
@@ -842,8 +865,14 @@ app.post('/api/send-appointment-email', async (req, res) => {
               <td style="padding: 6px 0; color: #2d3748;">${time}</td>
             </tr>
             <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Type:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</td>
+            </tr>
+            <tr>
               <td style="padding: 6px 0; color: #718096;"><strong>Location:</strong></td>
-              <td style="padding: 6px 0; color: #2d3748;">${clinicName}<br/><span style="font-size: 0.9em; color: #718096;">${address}</span></td>
+              <td style="padding: 6px 0; color: #2d3748;">
+                ${isOnline ? `Online Video Consultation via Jitsi Meet<br/><span style="font-size: 0.95em;"><a href="${jitsiLink}" style="color: #3b82f6; font-weight: bold; text-decoration: none;">Join Jitsi Meet Call</a></span>` : `${clinicName}<br/><span style="font-size: 0.9em; color: #718096;">${address}</span>`}
+              </td>
             </tr>
             ${notes ? `
             <tr>
@@ -854,7 +883,13 @@ app.post('/api/send-appointment-email', async (req, res) => {
           </table>
         </div>
 
-        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please arrive 10 minutes prior to your scheduled time. If you need to reschedule or cancel, please log in to your patient dashboard or contact the clinic.</p>
+        ${isOnline && jitsiLink ? `
+        <div style="text-align: center; margin: 20px 0;">
+          <a href="${jitsiLink}" style="background-color: #FF6B00; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Join Jitsi Video Call</a>
+        </div>
+        ` : ''}
+
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please arrive 10 minutes prior or connect at the scheduled hour. If you need to reschedule or cancel, please log in to your patient dashboard or contact the clinic.</p>
         
         <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
           <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
@@ -891,8 +926,14 @@ app.post('/api/send-appointment-email', async (req, res) => {
               <td style="padding: 6px 0; color: #2d3748;">${time}</td>
             </tr>
             <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Type:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</td>
+            </tr>
+            <tr>
               <td style="padding: 6px 0; color: #718096;"><strong>Clinic/Location:</strong></td>
-              <td style="padding: 6px 0; color: #2d3748;">${clinicName} (${address})</td>
+              <td style="padding: 6px 0; color: #2d3748;">
+                ${isOnline ? `Online Video Consultation via Jitsi Meet<br/><span style="font-size: 0.95em;"><a href="${jitsiLink}" style="color: #3b82f6; font-weight: bold; text-decoration: none;">Join Jitsi Meet Call</a></span>` : `${clinicName} (${address})`}
+              </td>
             </tr>
             ${notes ? `
             <tr>
@@ -902,6 +943,12 @@ app.post('/api/send-appointment-email', async (req, res) => {
             ` : ''}
           </table>
         </div>
+
+        ${isOnline && jitsiLink ? `
+        <div style="text-align: center; margin: 20px 0;">
+          <a href="${jitsiLink}" style="background-color: #10B981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Join Jitsi Video Call</a>
+        </div>
+        ` : ''}
 
         <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">This consultation is logged in your secure doctor dashboard. You can review the patient's profiles, EHR history, or uploaded diagnostics reports directly there.</p>
         
@@ -960,7 +1007,6 @@ ${separator}
       // Write mock log to files
       try {
         fs.appendFileSync('sent_emails.txt', mockLog, 'utf8');
-        fs.appendFileSync('/tmp/sent_emails.txt', mockLog, 'utf8');
       } catch (e) {
         console.error('Failed to write mock email log:', e);
       }
@@ -979,6 +1025,185 @@ ${separator}
   const doctorResult = await sendEmail({
     to: doctorEmail || 'doctor@vitacard.com',
     subject: doctorSubject,
+    html: doctorHtml
+  });
+
+  res.json({
+    success: true,
+    patientEmail: { sent: patientResult.success, mock: !!patientResult.mock },
+    doctorEmail: { sent: doctorResult.success, mock: !!doctorResult.mock }
+  });
+});
+
+// ─── Resend Appointment Reminder Endpoint ───
+app.post('/api/send-appointment-reminder', async (req, res) => {
+  const {
+    appointmentId,
+    patientName,
+    patientEmail,
+    doctorName,
+    doctorEmail,
+    specialization,
+    clinicName,
+    address,
+    date,
+    time,
+    mode,
+    jitsiLink,
+    notes
+  } = req.body;
+
+  const resendApiKey = process.env.RESEND_API_KEY || 're_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL';
+  const isOnline = mode === 'online';
+
+  const subject = `Appointment Reminder: ${doctorName} - VitaCard Healthcare`;
+
+  const patientHtml = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+      <div style="text-align: center; border-bottom: 2px solid #3B82F6; padding-bottom: 20px; margin-bottom: 20px;">
+        <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+        <p style="color: #718096; margin: 5px 0 0 0;">Upcoming Appointment Reminder</p>
+      </div>
+      <p>Dear <strong>${patientName}</strong>,</p>
+      <p>This is a reminder for your upcoming medical appointment with <strong>${doctorName}</strong>.</p>
+      
+      <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #3B82F6;">
+        <h3 style="margin-top: 0; color: #2d3748;">Appointment Details</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 6px 0; color: #718096; width: 120px;"><strong>Doctor:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">${doctorName} (${specialization})</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #718096;"><strong>Date & Time:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">${date} at ${time}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #718096;"><strong>Type:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #718096;"><strong>Location:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">
+              ${isOnline ? `Online Video Consultation via Jitsi Meet<br/><span style="font-size: 0.95em;"><a href="${jitsiLink}" style="color: #3b82f6; font-weight: bold; text-decoration: none;">Join Jitsi Meet Call</a></span>` : `${clinicName}<br/><span style="font-size: 0.9em; color: #718096;">${address}</span>`}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      ${isOnline && jitsiLink ? `
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${jitsiLink}" style="background-color: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Join Video Consultation</a>
+      </div>
+      ` : ''}
+
+      <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please ensure that you connect or arrive 10 minutes prior to your scheduled time. If you need to make changes, please log in to your patient dashboard.</p>
+      
+      <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+        <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+      </div>
+    </div>
+  `;
+
+  const doctorHtml = `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+      <div style="text-align: center; border-bottom: 2px solid #3B82F6; padding-bottom: 20px; margin-bottom: 20px;">
+        <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+        <p style="color: #718096; margin: 5px 0 0 0;">Consultation Reminder Alert</p>
+      </div>
+      <p>Dear <strong>${doctorName}</strong>,</p>
+      <p>This is a reminder that you have an upcoming consultation with patient <strong>${patientName}</strong>.</p>
+      
+      <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #3B82F6;">
+        <h3 style="margin-top: 0; color: #2d3748;">Consultation Details</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 6px 0; color: #718096; width: 120px;"><strong>Patient:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;"><strong>${patientName}</strong></td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #718096;"><strong>Date & Time:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">${date} at ${time}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #718096;"><strong>Type:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">${isOnline ? 'Online (Video Consultation)' : 'In-Person (Offline)'}</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px 0; color: #718096;"><strong>Clinic/Location:</strong></td>
+            <td style="padding: 6px 0; color: #2d3748;">
+              ${isOnline ? `Online Video Consultation via Jitsi Meet<br/><span style="font-size: 0.95em;"><a href="${jitsiLink}" style="color: #3b82f6; font-weight: bold; text-decoration: none;">Join Jitsi Meet Call</a></span>` : `${clinicName} (${address})`}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      ${isOnline && jitsiLink ? `
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${jitsiLink}" style="background-color: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Join Video Consultation</a>
+      </div>
+      ` : ''}
+
+      <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+        <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+      </div>
+    </div>
+  `;
+
+  async function sendEmail({ to, subject, html }) {
+    if (resendApiKey) {
+      try {
+        const response = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: 'VitaCard Healthcare <onboarding@resend.dev>',
+            to: to,
+            subject: subject,
+            html: html
+          })
+        });
+        if (!response.ok) {
+          const errText = await response.text();
+          return { success: false, error: errText };
+        }
+        const data = await response.json();
+        return { success: true, id: data.id };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    } else {
+      const separator = '='.repeat(60);
+      const mockLog = `
+${separator}
+📧 [MOCK REMINDER EMAIL] - ${new Date().toISOString()}
+Subject: ${subject}
+To: ${to}
+Body Preview:
+${html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').substring(0, 300)}...
+${separator}
+`;
+      console.log(mockLog);
+      try {
+        fs.appendFileSync('sent_emails.txt', mockLog, 'utf8');
+      } catch (e) {}
+      return { success: true, mock: true };
+    }
+  }
+
+  console.log(`📧 Sending reminder emails for booking ${appointmentId}...`);
+  const patientResult = await sendEmail({
+    to: patientEmail || 'patient@vitacard.com',
+    subject: subject,
+    html: patientHtml
+  });
+
+  const doctorResult = await sendEmail({
+    to: doctorEmail || 'doctor@vitacard.com',
+    subject: subject,
     html: doctorHtml
   });
 

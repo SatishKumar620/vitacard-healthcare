@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tesseract from 'tesseract.js';
+import { getCurrentSession, subscribeToState, getPatientById } from '../utils/state';
 
 /* ─── Question Progress Card Component ──────────────── */
 function QuestionProgressCard({ card }) {
@@ -155,6 +156,26 @@ export default function Chat() {
   const [isSpeakerOn, setIsSpeakerOn] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [session, setSession] = useState(getCurrentSession());
+
+  useEffect(() => {
+    const handleStateChange = () => {
+      const curSession = getCurrentSession();
+      setSession(curSession);
+      setHasOpened(false); // Reset so welcome/history logic re-runs on session change
+    };
+    return subscribeToState(handleStateChange);
+  }, []);
+
+  useEffect(() => {
+    const curSession = getCurrentSession();
+    if (curSession && curSession.role === 'patient' && messages.length > 0) {
+      const pProfile = getPatientById(curSession.id);
+      if (pProfile && pProfile.enableChatHistory) {
+        localStorage.setItem(`vitacard_chat_history_${curSession.id}`, JSON.stringify(messages));
+      }
+    }
+  }, [messages]);
 
   const msgsEndRef = useRef(null);
   const audioRef = useRef(null);
@@ -190,7 +211,24 @@ export default function Chat() {
     if (isOpen && !hasOpened) {
       setHasOpened(true);
       setShowNotification(false);
-      // Welcome message
+      
+      const curSession = getCurrentSession();
+      if (curSession && curSession.role === 'patient') {
+        const pProfile = getPatientById(curSession.id);
+        if (pProfile && pProfile.enableChatHistory) {
+          const savedHistory = localStorage.getItem(`vitacard_chat_history_${curSession.id}`);
+          if (savedHistory) {
+            try {
+              setMessages(JSON.parse(savedHistory));
+              return;
+            } catch (e) {
+              console.error("Failed to parse saved chat history:", e);
+            }
+          }
+        }
+      }
+
+      // Default welcome message if no history found or enabled
       setTimeout(() => {
         setMessages([
           {
