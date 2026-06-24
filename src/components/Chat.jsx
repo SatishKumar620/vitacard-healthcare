@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tesseract from 'tesseract.js';
-import { getCurrentSession, subscribeToState, getPatientById } from '../utils/state';
+import { getCurrentSession, subscribeToState, getPatientById, getChatHistoryFromServer, saveChatHistoryToServer } from '../utils/state';
 
 /* ─── Question Progress Card Component ──────────────── */
 function QuestionProgressCard({ card }) {
@@ -172,7 +172,9 @@ export default function Chat() {
     if (curSession && curSession.role === 'patient' && messages.length > 0) {
       const pProfile = getPatientById(curSession.id);
       if (pProfile && pProfile.enableChatHistory) {
-        localStorage.setItem(`vitacard_chat_history_${curSession.id}`, JSON.stringify(messages));
+        saveChatHistoryToServer(messages).catch(err => {
+          console.error("Failed to save chat history to server:", err);
+        });
       }
     }
   }, [messages]);
@@ -216,15 +218,31 @@ export default function Chat() {
       if (curSession && curSession.role === 'patient') {
         const pProfile = getPatientById(curSession.id);
         if (pProfile && pProfile.enableChatHistory) {
-          const savedHistory = localStorage.getItem(`vitacard_chat_history_${curSession.id}`);
-          if (savedHistory) {
-            try {
-              setMessages(JSON.parse(savedHistory));
-              return;
-            } catch (e) {
-              console.error("Failed to parse saved chat history:", e);
-            }
-          }
+          getChatHistoryFromServer()
+            .then(res => {
+              if (res.success && res.chatHistory && res.chatHistory.length > 0) {
+                setMessages(res.chatHistory);
+              } else {
+                setMessages([
+                  {
+                    sender: 'bot',
+                    text: getWelcomeText(language),
+                    quickReplies: getWelcomeQuickReplies(language)
+                  }
+                ]);
+              }
+            })
+            .catch(err => {
+              console.error("Failed to load chat history from server:", err);
+              setMessages([
+                {
+                  sender: 'bot',
+                  text: getWelcomeText(language),
+                  quickReplies: getWelcomeQuickReplies(language)
+                }
+              ]);
+            });
+          return;
         }
       }
 

@@ -678,12 +678,74 @@ app.post('/api/auth/update-profile', (req, res) => {
   }
 
   users[userIdx] = { ...users[userIdx], ...req.body };
+  if (req.body.enableChatHistory === false) {
+    users[userIdx].chatHistory = [];
+  }
   saveUsers(users);
 
   const sessionUser = { ...users[userIdx] };
   delete sessionUser.password;
 
   res.json({ success: true, user: sessionUser });
+});
+
+// ─── Chat History Database Storage Endpoints ───
+app.get('/api/chat-history', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decoded = verifyJwt(token);
+  if (!decoded) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+
+  const users = getUsers();
+  const user = users.find(u => u.id === decoded.id);
+  if (!user) {
+    return res.status(401).json({ error: 'User not found.' });
+  }
+
+  // Only return history if enableChatHistory is true
+  if (!user.enableChatHistory) {
+    return res.json({ success: true, chatHistory: [] });
+  }
+
+  res.json({ success: true, chatHistory: user.chatHistory || [] });
+});
+
+app.post('/api/chat-history', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decoded = verifyJwt(token);
+  if (!decoded) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+
+  const { messages } = req.body;
+  if (!Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Invalid messages format.' });
+  }
+
+  const users = getUsers();
+  const userIdx = users.findIndex(u => u.id === decoded.id);
+  if (userIdx === -1) {
+    return res.status(401).json({ error: 'User not found.' });
+  }
+
+  // Only save if enableChatHistory is true
+  if (users[userIdx].enableChatHistory) {
+    users[userIdx].chatHistory = messages;
+    saveUsers(users);
+  }
+
+  res.json({ success: true });
 });
 
 // ─── Resend Email Notification Endpoint ───
@@ -1215,7 +1277,7 @@ ${separator}
 });
 
 // Fallback for SPA routing if needed
-app.get('*', (req, res) => {
+app.get('/*splat', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 

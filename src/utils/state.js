@@ -611,3 +611,47 @@ export function markNotificationsAsRead(userId) {
     emitStateChange();
   }
 }
+
+export async function getChatHistoryFromServer() {
+  try {
+    const token = localStorage.getItem('vitacard_jwt_token');
+    if (!token) return { success: false, error: 'No authentication token.' };
+    const res = await fetch('/api/chat-history', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      return { success: true, chatHistory: data.chatHistory || [] };
+    }
+    return { success: false, error: data.error || 'Failed to fetch chat history' };
+  } catch (error) {
+    console.error('getChatHistoryFromServer error:', error);
+    return { success: false, error: 'Connection failed.' };
+  }
+}
+
+export async function saveChatHistoryToServer(messages) {
+  try {
+    const token = localStorage.getItem('vitacard_jwt_token');
+    if (!token) return { success: false, error: 'No authentication token.' };
+    const res = await fetch('/api/chat-history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ messages })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      return { success: true };
+    }
+    return { success: false, error: data.error || 'Failed to save chat history' };
+  } catch (error) {
+    console.error('saveChatHistoryToServer error:', error);
+    return { success: false, error: 'Connection failed.' };
+  }
+}

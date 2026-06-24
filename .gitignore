@@ -30,6 +30,7 @@ temp_clone/
 temp_backup/
 sent_emails.txt
 sent_emails.txt.tmp
+users.json
 
 # OS files
 .DS_Store
