@@ -573,7 +573,7 @@ export default function Chat() {
           </div>
           
           <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {/* <select 
+            <select 
               className="chat-lang-select" 
               value={language} 
               onChange={(e) => {
@@ -584,7 +584,7 @@ export default function Chat() {
             >
               <option value="en-IN">EN</option>
               <option value="hi-IN">हिंदी</option>
-            </select> */}
+            </select>
 
             <button 
               className={`chat-spk-toggle ${isSpeakerOn ? 'on' : 'off'}`}
@@ -711,7 +711,7 @@ export default function Chat() {
             onChange={handleImageUpload} 
           />
 
-          {/* <button 
+          <button 
             id="chat-upload" 
             onClick={() => fileInputRef.current.click()}
             title="Upload Medical Report"
@@ -720,9 +720,9 @@ export default function Chat() {
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 14H7l3.5-4.5 2.5 3.01L14.5 11l2.5 6z" />
             </svg>
-          </button> */}
+          </button>
 
-          {/* <button 
+          <button 
             id="chat-mic" 
             className={isRecording ? 'recording' : ''} 
             onClick={handleMicClick}
@@ -737,7 +737,7 @@ export default function Chat() {
                 <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
               </svg>
             )}
-          </button> */}
+          </button>
 
           <button id="chat-snd" onClick={() => handleSend(inputVal)}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">

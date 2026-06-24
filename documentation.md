@@ -172,8 +172,8 @@ The Express gateway exposes the following REST endpoints to drive user authentic
    - **Purpose:** Commits changes to patient clinical logs or practitioner information.
    - **Behavior:** Enforces JWT header validation, resolves the active user ID, merges submitted modifications with the account record in `users.json`, writes to disk, and returns updated profiles.
 5. **`POST /api/send-appointment-email`**
-   - **Purpose:** Triggers appointment booking confirmation emails.
-   - **Behavior:** Reads clinical calendar details, queries Resend API, and dispatches HTML formatting to patients and doctors. Logs confirmations to `/sent_emails.txt` as a debug fallback if API keys are not supplied.
+   - **Purpose:** Triggers appointment email notifications for bookings, cancellations, or rescheduling.
+   - **Behavior:** Reads clinical calendar details, action type (`book`, `cancel`, `reschedule`), old dates/times (for reschedule tracking), queries the Resend API, and dispatches dynamic HTML formatting to both patients and doctors. Falls back to a developer Resend API key (`re_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL`) or local logging if no API keys are supplied.
 6. **`POST /api/audio-to-text`**
    - **Purpose:** Gateway route forwarding client voice bytes to Sarvam AI audio transcoders for transcription.
 7. **`POST /webhook/doctor-chat`**
@@ -413,8 +413,8 @@ Because Hugging Face Spaces are stateless, restarts rebuild the container image.
 * **Future Scope:** Migrate the PostgreSQL container configuration to external managed database instances (e.g., Supabase or Neon DB) using SSL connections.
 
 ### 9.2 UI Localization, Voice Input, and Report Upload Controls
-The Language selection dropdown, Speech-to-Text (Voice) input, and client-side OCR Image upload buttons are temporarily commented out in the triage chat UI to streamline the core text-based diagnostic experience.
-* **Future Scope:** Re-enable and verify the local voice recorders and OCR parsers as configurable add-ons, allowing patients to upload lab diagnostics files and perform bilingual verbal consultations on-demand.
+The Language selection dropdown, Speech-to-Text (Voice) input, and client-side OCR Image upload buttons are fully re-enabled and active in the triage chat UI. This allows users to perform bilingual verbal consultations (with default English text-to-speech starting in muted mode) and upload medical report images for on-demand OCR parsing.
+* **Current Status:** Fully implemented. Future work involves refining continuous speech stream recognition and adding support for PDF report parsing on the client side.
 
 ### 9.3 Payment Gateway Integration
 Bookings are currently logged without verification.

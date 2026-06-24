@@ -138,7 +138,7 @@ The Express gateway exposes the following REST endpoints to drive user authentic
 2. **`POST /api/auth/login`** - Authenticates users role, email, and password, and returns a signed session token.
 3. **`GET /api/auth/me`** - Validates the request Bearer header token and resolves active user credentials.
 4. **`POST /api/auth/update-profile`** - Validates user session, merges submitted profile edits with local database records, and updates the state.
-5. **`POST /api/send-appointment-email`** - Fires Resend HTML template dispatchers to both patient and doctor schedules.
+5. **`POST /api/send-appointment-email`** - Fires Resend HTML template dispatchers to both patient and doctor schedules for booking, cancellation, or rescheduling actions (with developer fallback API key `re_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL`).
 6. **`POST /api/audio-to-text`** - Gateway transcoder route forwarding audio queries to Sarvam AI.
 7. **`POST /webhook/doctor-chat`** - Relays text messages to the internal n8n service on port 5678.
 8. **`/n8n/*`, `/webhook/*`, `/rest/*`, `/static/*`** - Proxies administration interfaces and active webhook endpoints directly to n8n.
@@ -236,7 +236,7 @@ VitaCard is containerized for seamless hosting:
 ## 9. Limitations & Future Scope
 
 * **Persistent Database Infrastructure:** The database runs locally inside the Docker container and is reset during deployments. Migrating to a managed cloud database (e.g. Neon, Supabase) is the next phase.
-* **UI Controls & Add-ons (Future Scope):** Triage language selector, Speech-to-Text mic input, and client-side report OCR uploads are temporarily commented out in the UI. These features are documented as modular plug-and-play add-ons for future versions.
+* **UI Controls & Localization:** Triage language selector, Speech-to-Text mic input, and client-side report OCR uploads are fully active in the triage chat UI (starting with silent speaker mode and English defaults).
 * **Payment Gateways:** Integrate Stripe or Razorpay to handle actual subscription billing and digital membership issuance.
 * **FHIR Standards Compliance:** Standardize clinical summaries using FHIR formatting to enable export to traditional medical databases.
 

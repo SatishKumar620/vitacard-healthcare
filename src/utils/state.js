@@ -416,6 +416,7 @@ export function addAppointment(appointmentData) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      action: 'book',
       appointmentId: newApt.id,
       patientName: newApt.patientName,
       patientEmail: patientEmail,
@@ -465,6 +466,38 @@ export function rescheduleAppointment(aptId, newDate, newTime) {
       addNotification(doctorUser.id, `Rescheduled appointment: Patient ${apt.patientName} moved from ${oldDate} ${oldTime} to ${newDate} ${newTime}.`);
     }
 
+    // Email trigger
+    const patientUser = users.find(u => u.id === apt.patientId);
+    let patientEmail = (patientUser && patientUser.email) || 'patient@vitacard.com';
+    let doctorEmail = (doctorUser && doctorUser.email) || `${apt.doctorName.toLowerCase().replace(/[^a-z0-9]/g, '')}@vitacard.com`;
+
+    fetch('/api/send-appointment-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action: 'reschedule',
+        appointmentId: apt.id,
+        patientName: apt.patientName,
+        patientEmail: patientEmail,
+        patientPhone: apt.patientPhone,
+        doctorName: apt.doctorName,
+        doctorEmail: doctorEmail,
+        specialization: apt.specialization || '',
+        clinicName: apt.clinicName || '',
+        address: apt.address || '',
+        date: newDate,
+        time: newTime,
+        oldDate: oldDate,
+        oldTime: oldTime,
+        notes: apt.notes || ''
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log('📧 Reschedule email response:', data))
+    .catch(err => console.error('❌ Failed to send reschedule email:', err));
+
     emitStateChange();
     return { success: true, appointment: apt };
   }
@@ -489,6 +522,36 @@ export function cancelAppointment(aptId) {
     if (doctorUser) {
       addNotification(doctorUser.id, `Cancelled appointment: Patient ${apt.patientName} cancelled slot for ${apt.date} at ${apt.time}.`);
     }
+
+    // Email trigger
+    const patientUser = users.find(u => u.id === apt.patientId);
+    let patientEmail = (patientUser && patientUser.email) || 'patient@vitacard.com';
+    let doctorEmail = (doctorUser && doctorUser.email) || `${apt.doctorName.toLowerCase().replace(/[^a-z0-9]/g, '')}@vitacard.com`;
+
+    fetch('/api/send-appointment-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action: 'cancel',
+        appointmentId: apt.id,
+        patientName: apt.patientName,
+        patientEmail: patientEmail,
+        patientPhone: apt.patientPhone,
+        doctorName: apt.doctorName,
+        doctorEmail: doctorEmail,
+        specialization: apt.specialization || '',
+        clinicName: apt.clinicName || '',
+        address: apt.address || '',
+        date: apt.date,
+        time: apt.time,
+        notes: apt.notes || ''
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log('📧 Cancellation email response:', data))
+    .catch(err => console.error('❌ Failed to send cancellation email:', err));
 
     emitStateChange();
     return { success: true };

@@ -689,6 +689,7 @@ app.post('/api/auth/update-profile', (req, res) => {
 // ─── Resend Email Notification Endpoint ───
 app.post('/api/send-appointment-email', async (req, res) => {
   const {
+    action, // 'book', 'cancel', 'reschedule'
     appointmentId,
     patientName,
     patientEmail,
@@ -700,108 +701,216 @@ app.post('/api/send-appointment-email', async (req, res) => {
     address,
     date,
     time,
+    oldDate,
+    oldTime,
     notes
   } = req.body;
 
-  const resendApiKey = process.env.RESEND_API_KEY;
+  const resendApiKey = process.env.RESEND_API_KEY || 're_65vpprKs_GJAgs2H2qLFsWqLGWQd4NVsL';
 
-  // Build Patient Email content
-  const patientSubject = `Appointment Confirmed: ${doctorName} - VitaCard Healthcare`;
-  const patientHtml = `
-    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
-      <div style="text-align: center; border-bottom: 2px solid #FF6B00; padding-bottom: 20px; margin-bottom: 20px;">
-        <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
-        <p style="color: #718096; margin: 5px 0 0 0;">Appointment Confirmation Notification</p>
-      </div>
-      <p>Dear <strong>${patientName}</strong>,</p>
-      <p>Your medical appointment has been successfully scheduled and confirmed.</p>
-      
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #FF6B00;">
-        <h3 style="margin-top: 0; color: #2d3748;">Appointment Details</h3>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 6px 0; color: #718096; width: 120px;"><strong>Doctor:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${doctorName} (${specialization})</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Date:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${date}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Time:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${time}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Location:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${clinicName}<br/><span style="font-size: 0.9em; color: #718096;">${address}</span></td>
-          </tr>
-          ${notes ? `
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Notes:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748; font-style: italic;">${notes}</td>
-          </tr>
-          ` : ''}
-        </table>
-      </div>
+  let patientSubject = `Appointment Confirmed: ${doctorName} - VitaCard Healthcare`;
+  let patientHtml = '';
+  let doctorSubject = `New Consultation Scheduled: ${patientName} - VitaCard Healthcare`;
+  let doctorHtml = '';
 
-      <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please arrive 10 minutes prior to your scheduled time. If you need to reschedule or cancel, please log in to your patient dashboard or contact the clinic.</p>
-      
-      <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
-        <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
-      </div>
-    </div>
-  `;
+  if (action === 'cancel') {
+    patientSubject = `Appointment Cancelled: ${doctorName} - VitaCard Healthcare`;
+    patientHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+        <div style="text-align: center; border-bottom: 2px solid #EF4444; padding-bottom: 20px; margin-bottom: 20px;">
+          <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+          <p style="color: #718096; margin: 5px 0 0 0;">Appointment Cancellation Notification</p>
+        </div>
+        <p>Dear <strong>${patientName}</strong>,</p>
+        <p>Your medical appointment with <strong>${doctorName}</strong> on <strong>${date}</strong> at <strong>${time}</strong> has been successfully <strong>cancelled</strong>.</p>
+        
+        <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #EF4444;">
+          <h3 style="margin-top: 0; color: #2d3748;">Cancelled Appointment Summary</h3>
+          <p><strong>Doctor:</strong> ${doctorName} (${specialization})</p>
+          <p><strong>Scheduled Slot:</strong> ${date} at ${time}</p>
+          <p><strong>Location:</strong> ${clinicName}</p>
+        </div>
 
-  // Build Doctor Email content
-  const doctorSubject = `New Consultation Scheduled: ${patientName} - VitaCard Healthcare`;
-  const doctorHtml = `
-    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
-      <div style="text-align: center; border-bottom: 2px solid #10B981; padding-bottom: 20px; margin-bottom: 20px;">
-        <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
-        <p style="color: #718096; margin: 5px 0 0 0;">New Consultation Alert</p>
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">If you cancelled this by mistake or wish to schedule a new consultation, please log in to your patient dashboard.</p>
+        
+        <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+          <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+        </div>
       </div>
-      <p>Dear <strong>${doctorName}</strong>,</p>
-      <p>A new consultation has been booked for you through the VitaCard automated system.</p>
-      
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #10B981;">
-        <h3 style="margin-top: 0; color: #2d3748;">Consultation & Patient Info</h3>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 6px 0; color: #718096; width: 120px;"><strong>Patient:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;"><strong>${patientName}</strong></td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Phone:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${patientPhone || 'Not provided'}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Date:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${date}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Time:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${time}</td>
-          </tr>
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Clinic/Location:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748;">${clinicName} (${address})</td>
-          </tr>
-          ${notes ? `
-          <tr>
-            <td style="padding: 6px 0; color: #718096;"><strong>Notes:</strong></td>
-            <td style="padding: 6px 0; color: #2d3748; font-style: italic;">${notes}</td>
-          </tr>
-          ` : ''}
-        </table>
-      </div>
+    `;
 
-      <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">This consultation is logged in your secure doctor dashboard. You can review the patient's profiles, EHR history, or uploaded diagnostics reports directly there.</p>
-      
-      <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
-        <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+    doctorSubject = `Appointment Cancelled: ${patientName} - VitaCard Healthcare`;
+    doctorHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+        <div style="text-align: center; border-bottom: 2px solid #EF4444; padding-bottom: 20px; margin-bottom: 20px;">
+          <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+          <p style="color: #718096; margin: 5px 0 0 0;">Cancellation Alert</p>
+        </div>
+        <p>Dear <strong>${doctorName}</strong>,</p>
+        <p>Please note that the patient <strong>${patientName}</strong> has <strong>cancelled</strong> their scheduled consultation slot.</p>
+        
+        <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #EF4444;">
+          <h3 style="margin-top: 0; color: #2d3748;">Cancelled Slot Info</h3>
+          <p><strong>Patient:</strong> ${patientName}</p>
+          <p><strong>Slot Time:</strong> ${date} at ${time}</p>
+        </div>
+
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">This slot has been released back to your active calendar queue.</p>
+        
+        <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+          <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+  } else if (action === 'reschedule') {
+    patientSubject = `Appointment Rescheduled: ${doctorName} - VitaCard Healthcare`;
+    patientHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+        <div style="text-align: center; border-bottom: 2px solid #3B82F6; padding-bottom: 20px; margin-bottom: 20px;">
+          <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+          <p style="color: #718096; margin: 5px 0 0 0;">Appointment Rescheduled Notification</p>
+        </div>
+        <p>Dear <strong>${patientName}</strong>,</p>
+        <p>Your medical appointment with <strong>${doctorName}</strong> has been successfully <strong>rescheduled</strong>.</p>
+        
+        <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #3B82F6;">
+          <h3 style="margin-top: 0; color: #2d3748;">Rescheduled Slot Details</h3>
+          <p><strong>Doctor:</strong> ${doctorName} (${specialization})</p>
+          <p><strong>New Date:</strong> ${date}</p>
+          <p><strong>New Time:</strong> ${time}</p>
+          <p><strong>Location:</strong> ${clinicName}</p>
+          ${oldDate ? `<p style="color: #718096; font-size: 0.9em; margin-top: 10px;"><em>Previously scheduled: ${oldDate} at ${oldTime}</em></p>` : ''}
+        </div>
+
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please update your calendar. If you need to make further adjustments, log in to your patient dashboard.</p>
+        
+        <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+          <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+        </div>
+      </div>
+    `;
+
+    doctorSubject = `Appointment Rescheduled: ${patientName} - VitaCard Healthcare`;
+    doctorHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+        <div style="text-align: center; border-bottom: 2px solid #3B82F6; padding-bottom: 20px; margin-bottom: 20px;">
+          <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+          <p style="color: #718096; margin: 5px 0 0 0;">Reschedule Alert</p>
+        </div>
+        <p>Dear <strong>${doctorName}</strong>,</p>
+        <p>An appointment with patient <strong>${patientName}</strong> has been <strong>rescheduled</strong>.</p>
+        
+        <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #3B82F6;">
+          <h3 style="margin-top: 0; color: #2d3748;">Rescheduled Slot Info</h3>
+          <p><strong>Patient:</strong> ${patientName}</p>
+          <p><strong>New Date:</strong> ${date}</p>
+          <p><strong>New Time:</strong> ${time}</p>
+          ${oldDate ? `<p style="color: #718096; font-size: 0.9em; margin-top: 10px;"><em>Previously scheduled: ${oldDate} at ${oldTime}</em></p>` : ''}
+        </div>
+
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Your scheduling database has been updated with these parameters.</p>
+        
+        <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+          <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+        </div>
+      </div>
+    `;
+  } else {
+    // default (book)
+    patientHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+        <div style="text-align: center; border-bottom: 2px solid #FF6B00; padding-bottom: 20px; margin-bottom: 20px;">
+          <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+          <p style="color: #718096; margin: 5px 0 0 0;">Appointment Confirmation Notification</p>
+        </div>
+        <p>Dear <strong>${patientName}</strong>,</p>
+        <p>Your medical appointment has been successfully scheduled and confirmed.</p>
+        
+        <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #FF6B00;">
+          <h3 style="margin-top: 0; color: #2d3748;">Appointment Details</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 6px 0; color: #718096; width: 120px;"><strong>Doctor:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${doctorName} (${specialization})</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Date:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${date}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Time:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${time}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Location:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${clinicName}<br/><span style="font-size: 0.9em; color: #718096;">${address}</span></td>
+            </tr>
+            ${notes ? `
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Notes:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748; font-style: italic;">${notes}</td>
+            </tr>
+            ` : ''}
+          </table>
+        </div>
+
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">Please arrive 10 minutes prior to your scheduled time. If you need to reschedule or cancel, please log in to your patient dashboard or contact the clinic.</p>
+        
+        <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+          <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+        </div>
+      </div>
+    `;
+
+    doctorHtml = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
+        <div style="text-align: center; border-bottom: 2px solid #10B981; padding-bottom: 20px; margin-bottom: 20px;">
+          <h2 style="color: #1a202c; margin: 0;">VitaCard Healthcare Portal</h2>
+          <p style="color: #718096; margin: 5px 0 0 0;">New Consultation Alert</p>
+        </div>
+        <p>Dear <strong>${doctorName}</strong>,</p>
+        <p>A new consultation has been booked for you through the VitaCard automated system.</p>
+        
+        <div style="background-color: #f7fafc; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #10B981;">
+          <h3 style="margin-top: 0; color: #2d3748;">Consultation & Patient Info</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 6px 0; color: #718096; width: 120px;"><strong>Patient:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;"><strong>${patientName}</strong></td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Phone:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${patientPhone || 'Not provided'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Date:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${date}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Time:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${time}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Clinic/Location:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748;">${clinicName} (${address})</td>
+            </tr>
+            ${notes ? `
+            <tr>
+              <td style="padding: 6px 0; color: #718096;"><strong>Notes:</strong></td>
+              <td style="padding: 6px 0; color: #2d3748; font-style: italic;">${notes}</td>
+            </tr>
+            ` : ''}
+          </table>
+        </div>
+
+        <p style="color: #718096; font-size: 0.9em; line-height: 1.5;">This consultation is logged in your secure doctor dashboard. You can review the patient's profiles, EHR history, or uploaded diagnostics reports directly there.</p>
+        
+        <div style="border-top: 1px solid #edf2f7; padding-top: 15px; margin-top: 25px; text-align: center; font-size: 0.8em; color: #a0aec0;">
+          <p>© 2026 VitaCard Healthcare. Secure and Automated Patient Notification System.</p>
+        </div>
+      </div>
+    `;
+  }
 
   // Helper function to send email via Resend
   async function sendEmail({ to, subject, html }) {
